@@ -51,6 +51,14 @@ class UserTimeLogsController < ApplicationController
         end
     end
 
+    def timelog_report
+        if params[:filter].present?
+            @timelog_report = UserTimeLog.user_filter_timelogs(current_user.id,DateTime.parse(params[:filter][:from_date].to_s).to_date, DateTime.parse(params[:filter][:to_date].to_s).to_date)
+        else
+            @timelog_report = current_user.user_time_logs
+        end
+    end
+
     private
 
         def timelog_params

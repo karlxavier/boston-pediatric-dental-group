@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
   get 'get_start_second', :to => 'user_time_logs#get_start_second', as: 'get_start_second'
   get 'load_notifications', :to => 'notifications#load_notifications', as: 'load_notifications'
+  get 'timelog_report', :to => 'user_time_logs#timelog_report', as: 'timelog_report'
 
   resources :channels do
     resources :channel_users

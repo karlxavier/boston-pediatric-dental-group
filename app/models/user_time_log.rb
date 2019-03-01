@@ -10,6 +10,7 @@ class UserTimeLog < ApplicationRecord
 
     scope :all_active_logs, -> { includes(:user, :office_time_log).limit(500) }
     scope :admin_filter_timelogs, -> (from_date, to_date) { includes(:user, :office_time_log).where("DATE(time_in) BETWEEN ? AND ?", from_date, to_date) }
+    scope :user_filter_timelogs, -> (user_id, from_date, to_date) { includes(:user, :office_time_log).where(user_id: user_id).where("DATE(time_in) BETWEEN ? AND ?", from_date, to_date) }
     scope :dashboard_latest_logs, -> (date) { includes(:user).select("DISTINCT ON (user_id) *").where("DATE(time_in) = ?", date)  }
     scope :user_time_log, -> (date, user_id) { includes(:user).where("DATE(time_in) = ?", date).where(user_id: user_id)  }
 

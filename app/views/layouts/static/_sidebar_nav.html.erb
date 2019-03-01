@@ -35,7 +35,7 @@
                     Messages
                 <% end %>
             </li>
-            <li class="<%= controller.class.name.split("::").first == 'UserTimeLogsController' ? 'active' : '' %>">
+            <li class="<%= controller.action_name == 'index' && controller.class.name.split("::").first == 'UserTimeLogsController' ? 'active' : '' %>">
                 <%= link_to user_time_logs_path do %>
                     <i class="far fa-clock"></i> 
                     Time Logs
@@ -45,6 +45,12 @@
                 <%= link_to notifications_path do %>
                     <i class="far fa-bell"></i> 
                     Notifications
+                <% end %>
+            </li>
+            <li class="<%= controller.action_name == 'timelog_report' && controller.class.name.split("::").first == 'UserTimeLogsController' ? 'active' : '' %>">
+                <%= link_to timelog_report_path do %>
+                    <i class="fa fa-print"></i> 
+                    Timelog Report
                 <% end %>
             </li>
         </ul>

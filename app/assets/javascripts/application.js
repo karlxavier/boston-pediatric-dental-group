@@ -48,6 +48,7 @@
 //= require select2.min
 //= require pdfjs
 //= require cropper
+//= require Timer
 
 $(document).on("turbolinks:load", function() {
   $(".selectpicker").selectpicker();

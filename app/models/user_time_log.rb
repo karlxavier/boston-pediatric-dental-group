@@ -2,6 +2,9 @@ class UserTimeLog < ApplicationRecord
     belongs_to :user
     belongs_to :office_time_log
 
+    # validates :time_in, uniqueness: true
+    validates_uniqueness_of :time_in, scope: %i[user_id description]
+
     audited associated_with: :user
 
     scope :get_active_time_in, -> (user_id) { includes(:user).where(user_id: user_id, active: true) }

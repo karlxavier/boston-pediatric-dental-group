@@ -33,7 +33,7 @@ class Vendor < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
 
-  before_destroy :check_for_associations
+  # before_destroy :check_for_associations
 
   def country_name
     if !country_origin.nil?
@@ -71,79 +71,16 @@ class Vendor < ApplicationRecord
     spreadsheet.row(1).each_with_index {|header,i|headers[header] = i}
     ((spreadsheet.first_row + 1)..spreadsheet.last_row).each do |row|
       
-      name = spreadsheet.row(row)[headers['Vendor']]
-      company = spreadsheet.row(row)[headers['Company']]
-      phone = spreadsheet.row(row)[headers['Main Phone']]
-      fax = spreadsheet.row(row)[headers['Fax']]
-      balance = spreadsheet.row(row)[headers['Balance']]
-      balance_total = spreadsheet.row(row)[headers['Balance Total']]
-      bill_1 = spreadsheet.row(row)[headers['Bill from 1']]
-      bill_2 = spreadsheet.row(row)[headers['Bill from 2']]
-      bill_3 = spreadsheet.row(row)[headers['Bill from 3']]
-      bill_4 = spreadsheet.row(row)[headers['Bill from 4']]
-      bill_5 = spreadsheet.row(row)[headers['Bill from 5']]
+      name = spreadsheet.row(row)[headers['Vendors']]
 
-      vend = Vendor.new
-
-      vend.name = name
-      vend.company = company
-      vend.phone = phone
-      vend.fax = fax
-      vend.balance = balance
-      vend.balance_total = balance_total
-      vend.bill_from_1 = bill_1
-      vend.bill_from_2 = bill_2
-      vend.bill_from_3 = bill_3
-      vend.bill_from_4 = bill_4
-      vend.bill_from_5 = bill_5
-
-      vend.save
+      vendor = Vendor.where(name: name).first
+      if vendor.present?
+      else
+        v = Vendor.new
+        v.name = name
+        v.save
+      end
     end
-
-    # spreadsheet= open_spreadsheet(file)
-    # header=spreadsheet.row(1)
-    # (2..spreadsheet.last_row).each do |i|
-    #   row=Hash[[header,spreadsheet.row(i)].transpose]
-    #   puts "#{row.to_json}"
-    #   temp_vendor = Vendor.find_by_name(row["name"])
-    #   if !temp_vendor.present?
-    #     @address = Address.where(:street => row['Bill from 1'], :street_2 => row['Bill from 2']).first
-
-    #     if !@address.present?
-    #       @address = Address.new
-    #       @address.street = row['Bill from 1']
-    #       @address.street_2 = row['Bill from 2']
-    #       @arr1 = []
-    #       @arr2 = []
-    #       if row['Bill from 3'].present? && row['Bill from 3'] != ''
-    #         @arr1 = row['Bill from 3'].split(', ')
-    #         if @arr1.length > 0
-    #           @address.city = @arr1[0]
-    #         end
-    #         if @arr1[1].present?
-    #           @arr2 = @arr1[1].split(' ')
-    #           if @arr2.length > 0
-    #             @address.state = @arr2[0]
-    #             if @arr2[1].present? && !@arr2[1].nil?
-    #               @address.zip = @arr2[0]
-    #             end
-    #           end
-    #         end
-    #       end
-    #       if row['Main Phone'].present? && row['Main Phone'] != ''
-    #         @address.phone = row['Main Phone']
-    #       end
-    #       @address.save
-    #     end
-
-    #     vendor = Vendor.new
-    #     vendor.name = row["Vendor"]
-    #     if @address.present?
-    #       vendor.billing_address = @address.id
-    #     end
-    #     vendor.save
-    #   end
-    # end
   end
 
   def self.open_spreadsheet(file)

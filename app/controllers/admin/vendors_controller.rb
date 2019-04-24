@@ -50,6 +50,11 @@ class Admin::VendorsController < Admin::BaseController
         render action: :index
     end
 
+    def import_csv
+        Vendor.import(params[:file])
+        redirect_to admin_vendors_path
+    end
+
     private
 
         def vendor_params

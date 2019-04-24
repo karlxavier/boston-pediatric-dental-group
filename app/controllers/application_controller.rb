@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
   end
 
   def front_unread_notifications
-    puts '******************** front_unread_notifications'
     if current_user.admin?
       @notifications =  Audit.admin_unread_notifications(current_user.front_last_notified, current_user.id)
     else

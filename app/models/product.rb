@@ -54,7 +54,7 @@ class Product < ApplicationRecord
 
   validates :name, presence: true
 
-  before_destroy :check_for_associations
+  # before_destroy :check_for_associations
 
   has_attached_file :picture, styles: { small: "64x64", med: "100x100", large: "200x200" }
   validates_attachment_content_type :picture, content_type: /\Aimage\/.*\z/
@@ -103,41 +103,28 @@ class Product < ApplicationRecord
     spreadsheet.row(1).each_with_index {|header,i|headers[header] = i}
     ((spreadsheet.first_row + 1)..spreadsheet.last_row).each do |row|
 
-      active = spreadsheet.row(row)[headers['Active Status']]
-      product_type = spreadsheet.row(row)[headers['Type']]
-      name = spreadsheet.row(row)[headers['Item']]
-      sales_tax = spreadsheet.row(row)[headers['Sales Tax Code']]
-      product_account = spreadsheet.row(row)[headers['Account']]
-      product_cog = spreadsheet.row(row)[headers['COGS Account']]
-      product_asset_account = spreadsheet.row(row)[headers['Asset Account']]
-      purchase_description = spreadsheet.row(row)[headers['Purchase Description']]
-      quantity = spreadsheet.row(row)[headers['Quantity On Hand']]
-      purchase_price = spreadsheet.row(row)[headers['Cost']]
-      vendor = spreadsheet.row(row)[headers['Preferred Vendor']]
+      name = spreadsheet.row(row)[headers['Name']]
+      vc_code = spreadsheet.row(row)[headers['VC']]
+      mfg_code = spreadsheet.row(row)[headers['Mfg Code']]
+      description = spreadsheet.row(row)[headers['Extended Description']]
+      vendor = spreadsheet.row(row)[headers['Vendor']]
       price = spreadsheet.row(row)[headers['Price']]
+      category = spreadsheet.row(row)[headers['Category']]
 
-      prod = Product.new
+      product = Product.find_by_name(name)
+      if product.present?
+      else
+        prod = Product.new
+        prod.name = name.nil? ? '' : name
+        prod.vc_code = vc_code.nil? ? '' : vc_code
+        prod.mfg_code = mfg_code.nil? ? '' : mfg_code
+        prod.description = description.nil? ? '' : description
+        prod.vendor_id = Vendor.find_by_name(vendor).present? ? Vendor.find_by_name(vendor).id : 0
+        prod.price = price.nil? ? '' : price
+        prod.category_id = Category.find_by_name(category).present? ? Category.find_by_name(category).id : 0
 
-      prod.name = name
-      prod.active = active || 'Active'
-      prod.product_type_id = ProductType.find_by_name(product_type).present? ? ProductType.find_by_name(product_type).id : 0
-      prod.sales_tax = sales_tax || 'Tax'
-      prod.product_account_id = ProductAccount.find_by_name(product_account).present? ? ProductAccount.find_by_name(product_account).id : 0
-      prod.product_cog_id = ProductCog.find_by_name(product_cog).present? ? ProductCog.find_by_name(product_cog).id : 0
-      prod.product_asset_account_id = ProductAssetAccount.find_by_name(product_asset_account).present? ? ProductAssetAccount.find_by_name(product_asset_account).id : 0
-      prod.purchase_description = purchase_description
-      prod.vendor_id = Vendor.find_by_name(vendor).present? ? Vendor.find_by_name(vendor).id : 0
-      prod.price = price
-      prod.purchase_price = purchase_price
-      prod.cost = purchase_price
-      prod.specs = purchase_description
-
-      prod.save
-
-      inv = Inventory.new
-      inv.product = Product.last
-      inv.quantity = quantity
-      inv.save
+        prod.save
+      end
 
     end
 

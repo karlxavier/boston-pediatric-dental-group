@@ -15,7 +15,7 @@ class Category < ApplicationRecord
 
 	validates :name, presence: true
 
-	before_destroy :check_for_associations
+	# before_destroy :check_for_associations
 
 	require 'csv'
 
@@ -29,10 +29,13 @@ class Category < ApplicationRecord
 	      
 	    	name = spreadsheet.row(row)[headers['Category']]
 
-	    	category = Category.new
-	    	category.name = name
-
-	    	category.save
+				category = Category.where(name: name)
+				if category.present?
+				else
+					cat = Category.new
+					cat.name = name
+					cat.save
+				end
 
 	    end
     

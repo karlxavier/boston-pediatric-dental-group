@@ -13,7 +13,7 @@ class Brand < ApplicationRecord
 
 	audited
 
-	has_many :orders
+	# has_many :orders
 	has_many :hotels
 	has_many :users_brands
 	has_many :customers

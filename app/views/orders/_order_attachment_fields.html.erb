@@ -1,0 +1,19 @@
+<tr class="nested-fields">
+     <td style="width: 80%;">
+          <div class="rounded-circle productPreview<%= f.object.id %>">
+               <% if f.object.attachment_data.present? %>
+                    <%= image_tag f.object.attachment_url(:original), class: "img-circle", style: "height: 50px; width: 50px;" %>  
+               <% end %>
+          </div>
+     </td>
+     <td style="width: 20%;">
+          <%= link_to_remove_association f, class: "btn btn-white btn-sm removeProduct pull-right", style: "margin: 0;" do %>
+               <i class="fa fa-times text-danger"></i>
+          <% end %>
+          <label class="btn btn-white btn-sm  pointer-cursor pull-right btnBrowse" style="z-index: 1;">
+               <i class="fa fa-paperclip"></i>
+               Browse File
+               <%= f.file_field :attachment, class: 'd-none imgData', title: "Image upload" %>
+          </label>          
+     </td>
+</tr>

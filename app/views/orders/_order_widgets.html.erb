@@ -1,0 +1,20 @@
+<div class="col-lg-4">
+     <div class="widget widget-stats bg-gradient-blue m-b-10">
+          <div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
+          <div class="stats-content">
+               <div class="stats-title">NEW ORDER PRODUCTS</div>
+               <div class="stats-number"><%= OrderProduct.new_orders.count %></div>
+               <div class="stats-desc">Total amount of $<%= number_with_precision(OrderProduct.new_orders.sum(:net_amount), :precision => 2, :delimiter => ',')  %></div>
+          </div>
+     </div>
+</div>
+<div class="col-lg-4">
+     <div class="widget widget-stats bg-gradient-orange m-b-10">
+          <div class="stats-icon stats-icon-lg"><i class="fa fa-file-alt fa-fw"></i></div>
+          <div class="stats-content">
+               <div class="stats-title">RECEIVED ORDER PRODUCTS</div>
+               <div class="stats-number"><%= OrderProduct.received_orders.count %></div>
+               <div class="stats-desc">Total amount of $<%= number_with_precision(OrderProduct.received_orders.sum(:net_amount), :precision => 2, :delimiter => ',')  %></div>
+          </div>
+     </div>
+</div>

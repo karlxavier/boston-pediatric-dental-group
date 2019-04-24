@@ -1,0 +1,26 @@
+<div class="project-lists">
+     <table id="order_table" class="footable table table-stripped toggle-arrow-tiny footable-loaded phone breakpoint footable-filtering" data-paging="true" data-sorting="true" data-filter-filters='true' style="font-size: 15px;">
+          <thead>
+               <tr>
+                    <th>Order ID</th>
+                    <th>Status</th>
+                    <th>Supplier</th>
+                    <th>Offices</th>
+                    <th>Raised</th>
+                    <th>Price</th>
+                    <th>Order Date</th>
+                    <th data-breakpoints="all" data-search-ignore="true"></th>
+                    <th data-sortable="false" data-filterable="false"></th>
+               </tr>
+          </thead>
+          <tbody>
+               <div >
+                    <% orders.each do |order| %>
+                         <tr class="footable" id="order_<%= order.id %>">
+                              <%= render 'order', order: order %>
+                         </tr>
+                    <% end %>
+               </div>
+          </tbody>
+     </table>
+</div>

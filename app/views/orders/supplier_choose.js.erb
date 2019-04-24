@@ -1,0 +1,11 @@
+$("div#supplier_info").html("<%= escape_javascript(render 'supplier_choose' ) %>");
+$('#select_supplier').select2({
+     placeholder: "Please choose supplier"
+});
+$('#select_supplier').on('select2:select', function (e) {
+     var data = $('.select2').val();
+     $.ajax({
+          url: "/users/supplier_info/" + data,
+          type: "GET"
+     });
+});

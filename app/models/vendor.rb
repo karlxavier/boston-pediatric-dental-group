@@ -28,6 +28,7 @@ class Vendor < ApplicationRecord
   has_many :categories, through: :vendor_categories
 
   has_many :vendor_reviews
+  has_many :orders
 
   validates :name, presence: true
   validates :name, uniqueness: true

@@ -1,8 +1,44 @@
-<div class="widget-list-item">
-    <div id="order-<%= order.id %>" class="cardlist widget-list-content">
-        <%= link_to order_path(order), class: "order-link", style: "margin-left: 10px;", remote: true do %>
-            <h4 class="widget-list-title"><%= order.id %> - <%= order.brand_name %></h4>
-            <p class="widget-list-desc"><%= order.created_date %></p>
-        <% end %>
-    </div>
-</div>
+
+     <td class="footable-visible">
+          <strong> <%= order.id %> </strong>
+     </td>
+     <td class="footable-visible" id="order_status_<%= order.id %>">
+          <%= render 'order_status', order: order %>
+     </td>
+     <td class="footable-visible">
+          <p style="font-size: 14px; font-weight: 600;"> <%= order.vendor.present? ? order.vendor.name.truncate(25, separator: '.') : '' %> </p>
+     </td>
+     <td class="footable-visible">
+          <% if order.order_offices.present? %>
+               <% order.order_offices.each do |order_office| %>
+                    <span class="label" style="margin: 5px;">
+                         <%= order_office.office.name.truncate(20, separator: '.') %>
+                    </span>
+               <% end %>
+          <% end %>
+     </td>
+     <td class="footable-visible">
+          <%= order.user.present? ? order.user.full_name : '' %>
+     </td>
+     <td class="footable-visible">
+          $ <%= number_with_precision(order.total_amount, :precision => 2, :delimiter => ',') %>
+     </td>
+     <td class="footable-visible">
+          <%= order.created_at.strftime("%d-%b-%C %I:%M%P") %>
+     </td>
+     <td>
+          <div class="project-lists">
+               <table class="table table-hover">
+                    <tbody>
+                         <% order.order_products.each_with_index do |order_product, i| %>
+                              <tr id="order_product_<%= order_product.id %>">
+                                   <%= render 'order_product', order_product: order_product, order: order %>
+                              </tr>
+                         <% end %>
+                    </tbody>
+               </table>
+          </div>
+     </td>
+     <td class="project-actions" id="order_actions_<%= order.id %>" style="margin-right: 20px;">
+          <%= render 'order_actions', order: order %>
+     </td>

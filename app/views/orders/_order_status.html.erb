@@ -1,0 +1,7 @@
+<% if order.status === "new_order" %>
+     <span class="label label-primary">New</span>
+<% elsif order.status === "processed" %>
+     <span class="label label-success">Processed</span>
+<% elsif order.status === "received" %>
+     <span class="label label-warning">Received</span>
+<% end %>

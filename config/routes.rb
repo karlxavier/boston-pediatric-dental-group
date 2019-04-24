@@ -44,15 +44,23 @@ Rails.application.routes.draw do
   resources :dynamic_messages, only: :show
   resources :dynamic_item_messages, only: :show
   resources :filter_notifications, only: :show
-  resources :orders do
-    collection do
-      post  'update_assign_user'
-      post  'update_order'
-      get   'send_orders'
-      post  'send_orders_to_vendors'
-      get   'item_details'
-    end
-  end
+  # resources :orders do
+  #   collection do
+  #     post  'update_assign_user'
+  #     post  'update_order'
+  #     get   'send_orders'
+  #     post  'send_orders_to_vendors'
+  #     get   'item_details'
+  #   end
+  # end
+
+  resources :orders
+    get 'supplier_info/:supplier_id', :to => 'orders#supplier_info', as: 'supplier_info'
+    get 'supplier_choose', :to => 'orders#supplier_choose', as: 'supplier_choose'
+    get 'receive_product/:order_product_id', :to => 'orders#receive_product', as: 'receive_product'
+
+  resources :inventories
+
   resources :products do
     collection do
       post  'change_picture'

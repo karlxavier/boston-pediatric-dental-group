@@ -16,6 +16,7 @@
 //= require popper.min
 //= require bootstrap.min
 //= require summernote/summernote-bs4.min
+//= require summernote-init
 //= require grasp_mobile_progress_circle-1.0.0.min
 //= require jquery.cookie
 //= require jquery.validate.min
@@ -49,6 +50,7 @@
 //= require pdfjs
 //= require cropper
 //= require Timer
+//= require footable.min
 
 $(document).on("turbolinks:load", function() {
   $(".selectpicker").selectpicker();

@@ -1,0 +1,110 @@
+<div class="row"  >
+  <div class="col padding-left">
+    <h1>At a glance</h1>
+    <p class="lead">
+      WEEKLY SUMMARY
+    </p>
+  </div>
+  <div class="col">
+
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">`
+            <span>
+                                   <h2><%= @restock %></h2>
+                                   <p class="lead">
+                                     ITEMS TO RESTOCK
+                                   </p>
+                               </span>
+          </div>
+          <div class="col center-item-overall">
+                               <span>
+                                   <h2><%= Product.all.length %></h2>
+                                   <p class="lead">
+                                     OVERALL ITEMS
+                                   </p>
+                               </span>
+          </div>
+          <div class="col">
+                               <span>
+                                    <h2><%= @no_stock %></h2>
+                                   <p class="lead">
+                                     NO STOCKS
+                                   </p>
+                               </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="lead-2">Notifications</h4>
+        <p class="action-text">
+          You have <span class="lead-2"><%= @restock %> Items</span> near out of stock
+        </p>
+        <p class="action-text">
+          <span class="lead-2"><%= @no_stock %> Items</span> to be restock
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col padding-left">
+        <h1>Items</h1>
+        <p class="lead">
+          CURRENT INVENTORY
+        </p>
+        <p class="padding-top">
+          <a href="<%= add_item_inventories_path %>" class="btn btn-nav">ADD AN ITEM</a>
+          <a href="<%= view_stocks_inventories_path %>" class="btn btn-nav">VIEW CURRENT STOCKS</a>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col padding-left">
+        <h1>Vendors</h1>
+        <p class="lead">
+          MANAGE SUPPLIERS
+        </p>
+        <p class="padding-top">
+          <a href="<%= new_vendor_path %>" class="btn btn-nav">ADD A VENDOR</a>
+          <a href="<%= supplier_vendors_path %>" class="btn btn-nav">SUPPLIER DATABASE</a>
+
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col padding-left">
+        <h1>Order</h1>
+        <p class="lead">
+          MAKE A RE-PURCHASE
+        </p>
+        <p class="padding-top">
+          <a href="<%= orders_path %>" class="btn btn-nav">RE-ORDER ITEM</a>
+          <!--<button class="btn btn-nav">VIEW ORDER HISTORY</button>-->
+
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="float-left">Order this week</h3>
+        <span class="float-right">
+                             <p class="lead text-right">
+                               TOTAL ORDERS
+                                 <h3 class="text-right adjust-margin-top"><%= Order.all.length %></h3>
+          </p>
+                        </span>
+        <div class="line-chart">
+          <canvas id="lineCahrt"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

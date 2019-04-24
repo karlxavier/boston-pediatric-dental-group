@@ -43,6 +43,7 @@ class User < ApplicationRecord
 
   has_many :brands
   has_many :groups
+  has_many :orders
   has_many :users_brands
   has_many :user_time_logs
   has_many :users_group_details
@@ -59,6 +60,8 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  has_many :products
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 

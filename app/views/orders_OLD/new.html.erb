@@ -1,0 +1,11 @@
+
+  <%= render "orders/form/form_fields", :header_title => "CREATE A NEW PROJECT", :header_sub_title => "Project Information", :form_id => "new_order", :form_action_url => "/orders", :order => Order.new %>
+  <%= render "orders/form/form_item_fields"%>
+  <%= render "orders/form/form_submit", :form_action => "new_order", :button_label => "Save this Order"%>
+
+<script>
+    var address_list = [];
+    var product_list = [];
+    var entry_list = [];
+    var all_address_list = [];
+</script>

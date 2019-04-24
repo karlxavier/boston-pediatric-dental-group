@@ -1,0 +1,4 @@
+$("#order_status_<%= @order.id %>").html("<%= escape_javascript(render 'order_status', order: @order ) %>");
+$("#order_actions_<%= @order.id %>").html("<%= escape_javascript(render 'order_actions', order: @order ) %>");
+$("#order_widgets").html("<%= escape_javascript(render 'order_widgets' ) %>");
+$("#order_product_<%= @order_product.id %>").html("<%= escape_javascript(render 'order_product', order_product: @order_product, order: @order ) %>");

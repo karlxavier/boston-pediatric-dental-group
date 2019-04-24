@@ -1,23 +1,279 @@
+<div class="row">
+     <div class="col-md-8 offset-md-2">
+          <%= form_for @order, html: { class: "form-horizontal" }  do |f| %>
+               <h1 class="page-header">
+                    <%= button_tag(type: 'Submit', class: "btn btn-primary btn-lg pull-right", style: "border-radius: 40px;") do %>
+                         <i class="fa fa-upload"></i>
+                         Update Order
+                    <% end %> 
+                    Edit Order <small>header small text goes here...</small>
+               </h1>
+               <div class="ibox-content p-xl" style="margin-top: 30px;">
+                         
+                    <div class="row">
+                         <div class="col-lg-12" style="min-height: 200px;">
+                              <div class="col-sm-6">
+                                   <div id="supplier_info">
+                                        <% if @order.vendor.present? %>
+                                             <%= render 'supplier_info', supplier: @order.vendor %>
+                                        <% else %>
+                                             <%= render 'supplier_choose' %>  
+                                        <% end %>
+                                        
+                                   </div>
+                              </div>
 
-<%= render "orders/form/form_fields", :header_title => "EDIT THIS PROJECT ##{@order.id}", :header_sub_title => "Project Information", :form_id => "edit_order", :form_action_url => "/orders/update_order", :order => @order %>
-<%= render "orders/form/form_item_fields"%>
-<%= render "orders/form/form_submit", :form_action => "edit_order", :button_label => "Update this Order"%>
+                              <%= f.hidden_field :vendor_id, id: "supplier_id" %>
 
-<script>
-    var address_list = [];
-    var product_list = [];
-    var entry_list = [];
-    var all_address_list = [];
+                              <div class="col-sm-6 text-right">
+                                   <div class="form-group row m-b-15">
+                                        <label style="font-size: 13px;" class="col-sm-3 col-form-label">Invoice No.</label>
+                                        <div class="col-sm-9">
+                                             <%= f.text_field :invoice_number, class: "form-control", placeholder: "Invoice Number", required: "" %>
+                                        </div>
+                                   </div>
+                                   <div class="form-group row m-b-15">
+                                        <label style="font-size: 13px;" class="col-sm-3 col-form-label">Offices</label>
+                                        <div class="col-sm-9">
+                                             <%= collection_select(:order, :office_ids, 
+                                                  Office.order(:name),:id,:name, 
+                                                  {:prompt=>true},
+                                                  {id: "select-offices", class: "select-offices form-control", style: "width: 100%;", multiple: true, required: ""}) 
+                                             %>
+                                        </div>
+                                   </div>
+                                   <div class="ibox" style="margin-bottom: 0;">
+                                        <div class="ibox-content" style="padding-bottom: 10px; border: none; padding-right: 0;">
+                                             <span>
+                                                  Total
+                                             </span>
+                                             <h2 id="totalAmount" class="font-bold" style="color: #676a6c; font-size: 20px;">
+                                                  $0.00
+                                             </h2>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="col-lg-12">
+                              <div class="ibox " style="margin-left: -20px; margin-right: -20px; margin-bottom: 0; ">
+                                   <div class="ibox-content" style="background-color: #929ba1!important;">
+                                        <%= link_to_add_association 'Add New Product', f, :order_products, class: "btn btn-outline btn-default btn-sm pull-right", data: {
+                                             association_insertion_node: "#order_products", association_insertion_method: :append
+                                        } %>
+                                        <h3 class="m-b-xxs" style="color: #fff; font-size: 20px; font-weight: 500;">Products</h3>
 
-    <% Address.where("id IN (SELECT billing_address FROM users WHERE id IN (SELECT user_id FROM users_brands WHERE brand_id = #{@order.brand_id}))  OR id IN (SELECT shipping_address FROM users WHERE id IN (SELECT user_id FROM users_brands WHERE brand_id = #{@order.brand_id}))").each do |address| %>
-    all_address_list.push(<%= address.id %>);
-    <% end %>
+                                   </div>
+                              </div>
+                              <div class="ibox" style="margin-left: -20px; margin-right: -20px; background-color: #ecf0f3;">
+                                   <div class="ibox-content">
+                                        <div class="project-list">
+                                             <table id="order_products" class="table table-hover">
+                                                  <tbody>
+                                                       <%= f.fields_for :order_products do |ff| %>
+                                                            <%= render 'order_product_fields', f: ff %>
+                                                       <% end %>
+                                                  </tbody>
+                                             </table>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="col-lg-12">
+                              <div class="ibox " style="margin-left: -20px; margin-right: -20px; margin-bottom: 0; ">
+                                   <div class="ibox-content" style="background-color: #929ba1!important;">
+                                        <%= link_to_add_association 'Upload Attachment', f, :order_attachments, class: "btn btn-outline btn-default btn-sm pull-right", data: {
+                                             association_insertion_node: "#order_attachments", association_insertion_method: :append
+                                        } %>
+                                        <h3 class="m-b-xxs" style="color: #fff; font-size: 20px; font-weight: 500;">Attachments</h3>
+                                   </div>
+                              </div>
+                              <div class="ibox" style="margin-left: -20px; margin-right: -20px; margin-bottom: 0; background-color: #ecf0f3;">
+                                   <div class="ibox-content">
+                                        <div class="project-list">
+                                             <table id="order_attachments" class="table table-hover">
+                                                  <tbody>
+                                                       <%= f.fields_for :order_attachments do |attachment| %>
+                                                            <%= render 'order_attachment_fields', f: attachment %>
+                                                       <% end %>
+                                                 </tbody>
+                                             </table>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="col-lg-12">
+                              <div class="ibox " style="margin-left: -20px; margin-right: -20px; margin-bottom: 0; ">
+                                   <div class="ibox-content" style="background-color: #929ba1!important;">
+                                        <h3 class="m-b-xxs" style="color: #fff; font-size: 20px; font-weight: 500;">Notes</h3>
+                                   </div>
+                              </div>
+                              <div class="ibox" style="margin-left: -20px; margin-right: -20px; margin-bottom: 0; background-color: #ecf0f3;">
+                                   <div class="ibox-content">
+                                        <%= f.text_area :notes, 'data-provider': :summernote %>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                             
+               </div>
+          <% end %>
+     </div>
+</div>
+<script type="text/javascript">
+     var ready = function() {
+          calculateTotal();
+          //setPreviewIDs();
+          
+          $('#select-offices').select2({
+               placeholder: "Please choose offices"
+          });
+          $('.summernote').summernote();
 
-    <% OrderBranch.where(:order_id => @order.id).each do |ob| %>
-    address_list.push(<%= ob.address_id %>);
-    <% end %>
-    <% OrderEntry.where(:order_id => @order.id).each do |oe| %>
-    entry_list.push(<%= oe.id %>);
-    <% end %>
+          function parseCurrency( num ) {
+               return parseFloat( num.toString().replace(  /[$,]/g, '' ) );
+          }
+          
+          function calculateTotal() {
+               var container = document.querySelector(".table");
+               var amounts = container.querySelectorAll('.nested-fields:not([style*="display:none"]):not([style*="display: none"]) .netAmount');
+
+               var total = 0;
+               amounts.forEach(amount => {
+                    total = total + parseCurrency(amount.value);
+               });
+               if (total) {
+                    document.getElementById("totalAmount").innerText = "$" + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+               } else {
+                    console.log(total);
+                    document.getElementById("totalAmount").innerText = "$0.00"
+               }
+          }
+
+          function setPreviewIDs(){
+               var container = document.querySelector(".table");
+               var prvs = document.querySelectorAll('.nested-fields .imgData');
+               console.log(prvs.length);
+               prvs.forEach(prv => {
+                    //var numberID = prv.id.split('order_order_attachments_attributes_')[1].match(/\d+/)[0];
+                    //var elementID = "order_order_attachments_attributes_" + numberID
+                    prv.setAttribute("class", "img" + numberID);
+                    console.log(prv.id);
+               });
+          }
+
+          $(document).on('cocoon:after-remove', '.content form', function(e) {
+               calculateTotal();
+          });
+
+          $('#order_products').on('cocoon:after-insert', function(e, insertedItem) {
+               $('.select-products').select2({
+                    placeholder: "Please choose products"
+               });
+
+               // ALLOW ONLY NUMERIC AND DECIMAL
+               $(".onlyNumeric").on("keypress keyup blur",function (event) {
+                    $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+                    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                         event.preventDefault();
+                    }
+               });
+
+               $(".onlyNumeric").on("blur",function (event) {
+             
+                         var numberID = $(this).attr('id').split('order_order_products_attributes_')[1].match(/\d+/)[0];
+                         var elementID = "order_order_products_attributes_" + numberID
+
+                         var amount = document.getElementById(elementID + "_amount").value; 
+                         var quantity = document.getElementById(elementID + "_quantity").value; 
+
+                         if (amount || quantity) {
+                              var total = amount * quantity;      
+                              total = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  
+                              document.getElementById(elementID + "_net_amount").value = "$" + total;
+
+                              calculateTotal();
+                         } else {
+                              document.getElementById(elementID + "_net_amount").value = "$0.00";
+                         }
+
+               });
+          });
+
+          $('#order_attachments').on('cocoon:after-insert', function(e, insertedItem) {
+               // Multiple images preview in browser
+               var imagesPreview = function(input, placeToInsertImagePreview) {
+
+                    if (input.files) {
+                         var filesAmount = input.files.length;
+                         var fileTypes = ['jpg', 'jpeg', 'png'];
+
+                         for (i = 0; i < filesAmount; i++) {
+                              var reader = new FileReader();
+
+                              var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
+                              isSuccess = fileTypes.indexOf(extension) > -1;
+
+                              if (isSuccess) {
+                                   reader.onload = function(event) {
+                                        $($.parseHTML('<img>')).attr('src', event.target.result).attr('style', 'height: 50px;').appendTo(placeToInsertImagePreview);
+                                   }
+                              } else {
+                                   reader.onload = function(event) {
+                                        $($.parseHTML('<img>')).attr('src', "<%= image_path 'default-product.png' %>").attr('style', 'height: 40px; border-radius: 5px;').appendTo(placeToInsertImagePreview);
+                                   }
+                              }
+
+                              reader.readAsDataURL(input.files[i]);
+                         }
+                    }
+
+               };
+
+               $(".imgData").on("change",function (event) {
+
+                    var numberID = $(this).attr('id').split('order_order_attachments_attributes_')[1].match(/\d+/)[0];
+                    var elementID = "order_order_attachments_attributes_" + numberID
+
+                    var imgPreview = document.getElementsByClassName("productPreview")[0];
+
+                    if (imgPreview) {
+                         imgPreview.setAttribute("class", "img" + numberID);
+                         imagesPreview(this, imgPreview);
+                    } else {
+                         var imgPreview = document.getElementsByClassName("btn" + numberID)[0];
+                         imagesPreview(this, imgPreview);
+                    }
+               });
+          });
+
+          $(".onlyNumeric").on("keypress keyup blur",function (event) {
+               $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+               if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+               }
+          });
+
+          $(".onlyNumeric").on("blur",function (event) {
+          
+                    var numberID = $(this).attr('id').split('order_order_products_attributes_')[1].match(/\d+/)[0];
+                    var elementID = "order_order_products_attributes_" + numberID
+
+                    var amount = document.getElementById(elementID + "_amount").value; 
+                    var quantity = document.getElementById(elementID + "_quantity").value; 
+
+                    if (amount || quantity) {
+                         var total = amount * quantity;      
+                         total = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  
+                         document.getElementById(elementID + "_net_amount").value = "$" + total;
+
+                         calculateTotal();
+                    } else {
+                         document.getElementById(elementID + "_net_amount").value = "$0.00";
+                    }
+
+          });
+     };
+
+     $(document).on('turbolinks:load', ready); 
 
 </script>

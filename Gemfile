@@ -39,6 +39,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'devise'
 gem 'cancancan'
+gem 'rb-readline'
 
 gem 'administrate'
 gem 'administrate-field-paperclip'

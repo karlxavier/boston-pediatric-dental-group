@@ -1,0 +1,11 @@
+<address>
+     <h3 style="font-size: 18px; font-weight: 600; color: #1c84c6 !important;">
+          <%= supplier.name.present? ? supplier.name : 'N/A' %>
+     </h3>
+     <span class="semi-bold" style="font-size: 14px;">
+          <%= supplier.bill_from_2.present? ? supplier.bill_from_2 : 'N/A' %><br>
+          
+          <abbr title="Phone">P:</abbr> <%= supplier.phone.present? ? supplier.phone : '' %>
+     </span>
+</address>
+<%= link_to 'Change', supplier_choose_path, class: "btn btn-default btn-sm m-r-5 m-b-5", remote: true %>

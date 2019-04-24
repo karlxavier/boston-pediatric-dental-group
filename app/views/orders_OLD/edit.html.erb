@@ -1,0 +1,23 @@
+
+<%= render "orders/form/form_fields", :header_title => "EDIT THIS PROJECT ##{@order.id}", :header_sub_title => "Project Information", :form_id => "edit_order", :form_action_url => "/orders/update_order", :order => @order %>
+<%= render "orders/form/form_item_fields"%>
+<%= render "orders/form/form_submit", :form_action => "edit_order", :button_label => "Update this Order"%>
+
+<script>
+    var address_list = [];
+    var product_list = [];
+    var entry_list = [];
+    var all_address_list = [];
+
+    <% Address.where("id IN (SELECT billing_address FROM users WHERE id IN (SELECT user_id FROM users_brands WHERE brand_id = #{@order.brand_id}))  OR id IN (SELECT shipping_address FROM users WHERE id IN (SELECT user_id FROM users_brands WHERE brand_id = #{@order.brand_id}))").each do |address| %>
+    all_address_list.push(<%= address.id %>);
+    <% end %>
+
+    <% OrderBranch.where(:order_id => @order.id).each do |ob| %>
+    address_list.push(<%= ob.address_id %>);
+    <% end %>
+    <% OrderEntry.where(:order_id => @order.id).each do |oe| %>
+    entry_list.push(<%= oe.id %>);
+    <% end %>
+
+</script>

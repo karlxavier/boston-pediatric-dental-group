@@ -1024,3 +1024,143 @@ dt {
   vertical-align: middle;
   padding: 20px;
 }
+
+// *************** FOR PATIENTS ****************
+.p-navbar {
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.11);
+  height: 80px;
+}
+
+.p-navbar-header {
+  height: 80px;
+  margin-left: 40px;
+  display: inline-block;
+  padding-top: 15px;
+}
+
+.p-sidebar {
+  background-color: #fff!important;
+  padding-top: 80px;
+  border-right: 1px solid #ccc;
+}
+
+.p-sidebar-link {
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  -webkit-transition: padding 0.2s;
+  -moz-transition: padding 0.2s;
+  transition: padding 0.2s;
+  white-space: normal;
+  line-height: 24px;
+  padding: 15px;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+  fill: #333!important;
+}
+
+.p-sidebar-icon {
+  font-size: 20px!important; padding-right: 25px; color: #999!important;
+}
+
+.p-sidebar-text {
+  font-weight: 100;
+  font-size: 15px;
+  line-height: 30px;
+  text-decoration: none; color: #333!important;
+}
+
+.p-sidebar-link:hover {
+  font-weight: 200;
+  color: #333!important;
+  fill: #333!important;
+  border-color: #ccc;
+  padding-left: 19px;
+
+  .p-sidebar-icon {
+    color: #333!important;
+  }
+
+}
+
+.p-sidebar-link.active {
+  font-weight: 200;
+  color: #333!important;
+  fill: #333!important;
+  border-color: #ccc;
+  padding-left: 19px;
+  background: #fff!important;
+  border-left: none!important;
+
+  .p-sidebar-icon {
+    color: #333!important;
+  }
+
+  a {
+    background: #fff!important;
+  }
+}
+
+.p-sidebar-icon:hover {
+  color: #333!important;
+}
+
+.p-content-container {
+  background: #f8f8f8;
+  padding: 10px 35px 0 35px;
+}
+
+.p-content-title {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+.p-content-text {
+  font-size: 28px;
+  color: #333;
+  font-weight: 100;
+  margin: 10px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.p-content {
+  margin: 30px;
+}
+
+.p-h2 {
+  font-weight: 400;
+}
+
+.p-text-primary {
+  color: #1c84c6 !important;
+}
+
+.nav-second {
+  background-color: #f9f9f9;
+  padding: 8px 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.page-item.active .page-link {
+  background-color: #FFFFFF!important;
+  color: #242a30!important;
+}
+
+.form-control[readonly] {
+  background-color: #FFFFFF;
+}
+
+.footable-filtering {
+	display:none;
+}

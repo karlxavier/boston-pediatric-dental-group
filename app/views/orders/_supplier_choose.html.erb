@@ -1,0 +1,24 @@
+<%= collection_select(:document_upload, :supplier_ids, 
+     Vendor.order(:name),:id,:name, 
+     {:prompt=>true},
+     {id: "select_supplier", class: "select2 form-control", style: "width: 100%;"}) 
+%>
+
+<script type="text/javascript">
+
+     var ready = function() {
+          $('.select2').select2({
+               placeholder: "Please choose supplier"
+          });
+          $('.select2').on('select2:select', function (e) {
+               var data = $('.select2').val();
+               $.ajax({
+                    url: "/supplier_info/" + data,
+                    type: "GET"
+               });
+          });
+     };
+
+     $(document).on('turbolinks:load', ready); 
+
+</script>

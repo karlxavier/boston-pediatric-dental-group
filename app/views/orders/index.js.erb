@@ -1,2 +1,10 @@
-$("div#order_list").html("<%= j render @orders %>");
-$("div#order-<%= @orders.first.id %>").trigger('click');
+$("#table_orders").html("<%= escape_javascript(render 'orders', orders: @orders ) %>");
+$('#order_table').footable({
+     "paging": {
+          "size": 10
+     },
+     "filtering": {
+          "enabled": false
+     }
+});
+$('#table_orders').removeClass('sk-loading');

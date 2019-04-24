@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190129152731) do
+ActiveRecord::Schema.define(version: 20190424110525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -329,6 +329,19 @@ ActiveRecord::Schema.define(version: 20190129152731) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "offices", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "order_attachments", force: :cascade do |t|
+    t.integer "order_id"
+    t.text "attachment_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "order_branches", force: :cascade do |t|
     t.integer "address_id"
     t.integer "brand_id"
@@ -386,6 +399,25 @@ ActiveRecord::Schema.define(version: 20190129152731) do
     t.integer "product_id"
   end
 
+  create_table "order_offices", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "office_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "order_products", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "product_id"
+    t.integer "quantity"
+    t.decimal "amount"
+    t.decimal "net_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0
+    t.datetime "received_on"
+  end
+
   create_table "order_statuses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -405,25 +437,15 @@ ActiveRecord::Schema.define(version: 20190129152731) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "created_by"
-    t.integer "order_status_id"
-    t.integer "customer_id"
-    t.integer "delivery_address"
-    t.integer "payment_address"
-    t.decimal "total_cost"
-    t.decimal "total_tax"
-    t.decimal "total_discount"
-    t.decimal "margin"
-    t.integer "last_updated_by"
-    t.datetime "promise_date"
+    t.integer "user_id"
     t.string "notes"
-    t.datetime "fulfillment_date"
+    t.integer "supplier_id"
+    t.decimal "total_amount"
+    t.integer "status", default: 0
+    t.string "invoice_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "lead_time"
-    t.decimal "total_budget"
-    t.boolean "urgent"
-    t.integer "brand_id"
+    t.integer "vendor_id"
   end
 
   create_table "product_accounts", force: :cascade do |t|
@@ -503,6 +525,9 @@ ActiveRecord::Schema.define(version: 20190129152731) do
     t.decimal "vendor_price", precision: 12, scale: 3
     t.decimal "total_cost", precision: 12, scale: 3
     t.integer "hotel_id"
+    t.string "vc_code"
+    t.string "mfg_code"
+    t.integer "category_id"
     t.index ["style_attribute_id"], name: "index_products_on_style_attribute_id"
     t.index ["vendor_id"], name: "index_products_on_vendor_id"
   end
@@ -581,7 +606,7 @@ ActiveRecord::Schema.define(version: 20190129152731) do
     t.boolean "designers", default: true
     t.boolean "processor", default: true
     t.string "ip_address"
-    t.datetime "front_last_notified"
+    t.datetime "front_last_notified", default: "2019-04-24 14:23:47"
     t.index ["brand_id"], name: "index_users_on_brand_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["group_id"], name: "index_users_on_group_id"
@@ -669,306 +694,4 @@ ActiveRecord::Schema.define(version: 20190129152731) do
   add_foreign_key "users", "brands"
   add_foreign_key "users", "groups"
   add_foreign_key "vendors", "products"
-
-  create_view "search_results",  sql_definition: <<-SQL
-      SELECT order_entries.order_id AS searchable_id,
-      'Order'::text AS searchable_type,
-      products.name AS search_term
-     FROM (order_entries
-       JOIN products ON ((products.id = order_entries.product_id)))
-  UNION
-   SELECT order_entries.order_id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (products.id)::text AS search_term
-     FROM (order_entries
-       JOIN products ON ((products.id = order_entries.product_id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (orders.brand_id)::text AS search_term
-     FROM orders
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      brands.name AS search_term
-     FROM (orders
-       JOIN brands ON ((brands.id = orders.brand_id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (order_users.regional)::text AS search_term
-     FROM (orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-    WHERE (order_users.regional IS NOT NULL)
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (order_users.comms)::text AS search_term
-     FROM (orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-    WHERE (order_users.comms IS NOT NULL)
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (order_users.art)::text AS search_term
-     FROM (orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-    WHERE (order_users.art IS NOT NULL)
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (order_users.processor)::text AS search_term
-     FROM (orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-    WHERE (order_users.processor IS NOT NULL)
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (order_users.designer)::text AS search_term
-     FROM (orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-    WHERE (order_users.designer IS NOT NULL)
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (order_users.client_contact)::text AS search_term
-     FROM (orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-    WHERE (order_users.client_contact IS NOT NULL)
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.email AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.regional = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.first_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.regional = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.last_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.regional = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      concat(users.first_name, ' ', users.last_name) AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.regional = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.email AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.comms = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.first_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.comms = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.last_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.comms = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      concat(users.first_name, ' ', users.last_name) AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.comms = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.email AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.art = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.first_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.art = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.last_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.art = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      concat(users.first_name, ' ', users.last_name) AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.art = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.email AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.processor = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.first_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.processor = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.last_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.processor = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      concat(users.first_name, ' ', users.last_name) AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.processor = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.email AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.designer = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.first_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.designer = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.last_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.designer = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      concat(users.first_name, ' ', users.last_name) AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.designer = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.email AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.client_contact = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.first_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.client_contact = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      users.last_name AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.client_contact = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      concat(users.first_name, ' ', users.last_name) AS search_term
-     FROM ((orders
-       JOIN order_users ON ((order_users.order_id = orders.id)))
-       JOIN users ON ((order_users.client_contact = users.id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      (orders.id)::text AS search_term
-     FROM orders
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      categories.name AS search_term
-     FROM ((orders
-       JOIN order_entries ON ((order_entries.order_id = orders.id)))
-       JOIN categories ON ((categories.id = order_entries.category_id)))
-  UNION
-   SELECT orders.id AS searchable_id,
-      'Order'::text AS searchable_type,
-      vendors.name AS search_term
-     FROM ((orders
-       JOIN order_entries ON ((order_entries.order_id = orders.id)))
-       JOIN vendors ON ((vendors.id = order_entries.vendor)))
-  UNION
-   SELECT users.id AS searchable_id,
-      'User'::text AS searchable_type,
-      users.email AS search_term
-     FROM users
-  UNION
-   SELECT users.id AS searchable_id,
-      'User'::text AS searchable_type,
-      users.first_name AS search_term
-     FROM users
-  UNION
-   SELECT users.id AS searchable_id,
-      'User'::text AS searchable_type,
-      users.last_name AS search_term
-     FROM users
-  UNION
-   SELECT messages.id AS searchable_id,
-      'Message'::text AS searchable_type,
-      messages.body AS search_term
-     FROM messages
-    WHERE ((messages.body IS NOT NULL) AND (COALESCE(messages.body, ''::text) <> ''::text))
-  UNION
-   SELECT item_messages.id AS searchable_id,
-      'ItemMessage'::text AS searchable_type,
-      item_messages.body AS search_term
-     FROM item_messages
-    WHERE ((item_messages.body IS NOT NULL) AND (COALESCE(item_messages.body, ''::text) <> ''::text))
-  UNION
-   SELECT users.id AS searchable_id,
-      'User'::text AS searchable_type,
-      concat(users.first_name, ' ', users.last_name) AS search_term
-     FROM users
-  UNION
-   SELECT products.id AS searchable_id,
-      'Product'::text AS searchable_type,
-      products.name AS search_term
-     FROM products
-  UNION
-   SELECT categories.id AS searchable_id,
-      'Category'::text AS searchable_type,
-      categories.name AS search_term
-     FROM categories
-  UNION
-   SELECT brands.id AS searchable_id,
-      'Brand'::text AS searchable_type,
-      brands.name AS search_term
-     FROM brands;
-  SQL
-
 end

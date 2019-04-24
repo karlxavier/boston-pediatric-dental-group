@@ -2,7 +2,7 @@ development:
   adapter: postgresql
   encoding: unicode
   # database: <%= ENV['DB_NAME'] %>
-  database: regency_development
+  database: regency_3_development
   pool: 5
   template: template0
   username: <%= ENV['DB_USER'] %>

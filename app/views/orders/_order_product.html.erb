@@ -1,0 +1,42 @@
+<td class="project-people" style="border: none;">
+     <% if order_product.product.image_data?  %>
+          <%= image_tag order_product.product.image_url(:original), class: "img-circle circle-border m-b-md", style: "height: 50px; width: 50px; margin-bottom: 5px;" %>  
+     <% else %>
+          <%= image_tag 'default-product.png', class: "img-circle circle-border m-b-md", style: "height: 50px; width: 50px; margin-bottom: 5px;" %>  
+     <% end %>
+</td>
+<td class="project-title" style="border: none;">
+     <a href="#">
+          <%= order_product.product.present? ? order_product.product.name : '' %>
+     </a>
+     <br>
+     <% if order_product.status === "New" %>
+          <small class="label label-primary">New</small>
+     <% elsif order_product.status == "Received" %>
+          <small class="label label-warning">Received</small>
+     <% end %>
+</td>
+<td class="project-title" style="border: none;">
+     <strong style="font-size: 16px;"><%= order_product.quantity %></strong>
+     <br>
+     <small>Quantity</small>
+</td>
+<td class="project-title" style="border: none;">
+     <strong style="font-size: 16px;">$<%= number_with_precision(order_product.amount, :precision => 2, :delimiter => ',') %> </strong>
+     <br>
+     <small>Price</small>
+</td>
+<td class="project-title" style="border: none;">
+     <strong style="font-size: 16px;">
+          $<%= number_with_precision(order_product.net_amount, :precision => 2, :delimiter => ',') %> 
+     </strong>
+     <br>
+     <small>Total</small>
+</td>
+<td style="border: none;">
+     <% if order_product.status === "New" %>
+          <%= link_to receive_product_path(order_product.id), class: "btn btn-warning btn-sm", remote: true do  %>
+               <span class="bold"> Receive</span>
+          <% end %>
+     <% end %>
+</td>

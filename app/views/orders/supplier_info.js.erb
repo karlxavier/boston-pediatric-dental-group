@@ -1,0 +1,2 @@
+$("div#supplier_info").html("<%= escape_javascript(render 'supplier_info', supplier: @supplier ) %>");
+document.getElementById("supplier_id").value = "<%= @supplier.id %>";

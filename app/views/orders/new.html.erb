@@ -24,7 +24,7 @@
                                    <div class="form-group row m-b-15">
                                         <label style="font-size: 13px;" class="col-sm-3 col-form-label">Invoice No.</label>
                                         <div class="col-sm-9">
-                                             <%= f.text_field :invoice_number, class: "form-control", placeholder: "Invoice Number", readonly: "", value: "INV#{(Order.last.id + 1).to_s.rjust(5, '0')}" %>
+                                             <%= f.text_field :invoice_number, class: "form-control", placeholder: "Invoice Number", readonly: "", value: "INV#{Order.last.present? ? (Order.last.id + 1).to_s.rjust(5, '0') : "00001"}" %>
                                         </div>
                                    </div>
                                    <div class="form-group row m-b-15">

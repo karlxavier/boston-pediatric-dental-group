@@ -21,18 +21,6 @@
      <br>
      <small>Quantity</small>
 </td>
-<td class="project-title" style="border: none;">
-     <strong style="font-size: 16px;">$<%= number_with_precision(order_product.amount, :precision => 2, :delimiter => ',') %> </strong>
-     <br>
-     <small>Price</small>
-</td>
-<td class="project-title" style="border: none;">
-     <strong style="font-size: 16px;">
-          $<%= number_with_precision(order_product.net_amount, :precision => 2, :delimiter => ',') %> 
-     </strong>
-     <br>
-     <small>Total</small>
-</td>
 <td style="border: none;">
      <% if order_product.status === "New" %>
           <%= link_to receive_product_path(order_product.id), class: "btn btn-warning btn-sm", remote: true do  %>

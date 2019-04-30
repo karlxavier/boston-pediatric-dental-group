@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
      before_action :set_order, only: [:edit, :update, :destroy, :show]
 
      def index
+        session[:supplier_id] = nil
         respond_to do |format|
             if params[:filter].present?
                 if params[:filter].has_key?(:from_date) && params[:filter].has_key?(:to_date)
@@ -71,6 +72,7 @@ class OrdersController < ApplicationController
      def supplier_info
           respond_to do |format|
                @supplier = Vendor.find(params[:supplier_id])
+               @products = @supplier.products
                format.js
           end
      end
@@ -90,6 +92,18 @@ class OrdersController < ApplicationController
                 @order.update_attributes(status: 2)
                 format.js
             end
+        end
+     end
+
+     def supplier_products
+        if params[:supplier_id]
+            @supplier = Vendor.find(params[:supplier_id])
+            @products = @supplier.products
+            puts '*********** product suppliers count'
+            puts @products.count
+            render json: @products.map{|v| v.serializable_hash(only: [:id, :name]) }
+        else
+            render json: []
         end
      end
 

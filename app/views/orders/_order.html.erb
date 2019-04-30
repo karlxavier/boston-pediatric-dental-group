@@ -21,7 +21,7 @@
           <%= order.user.present? ? order.user.full_name : '' %>
      </td>
      <td class="footable-visible">
-          $ <%= number_with_precision(order.total_amount, :precision => 2, :delimiter => ',') %>
+          $<%= number_with_precision(order.total_amount, :precision => 2, :delimiter => ',') %>
      </td>
      <td class="footable-visible">
           <%= order.created_at.strftime("%d-%b-%C %I:%M%P") %>

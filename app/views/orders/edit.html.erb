@@ -29,7 +29,7 @@
                                    <div class="form-group row m-b-15">
                                         <label style="font-size: 13px;" class="col-sm-3 col-form-label">Invoice No.</label>
                                         <div class="col-sm-9">
-                                             <%= f.text_field :invoice_number, class: "form-control", placeholder: "Invoice Number", required: "" %>
+                                             <%= f.text_field :invoice_number, class: "form-control", placeholder: "Invoice Number", readonly: true %>
                                         </div>
                                    </div>
                                    <div class="form-group row m-b-15">
@@ -127,6 +127,32 @@
           $('#select-offices').select2({
                placeholder: "Please choose offices"
           });
+
+             $('#order_products').on('cocoon:after-insert', function() {
+                var supplier_id = document.getElementById("supplier_id").value; 
+                $(".select2-products").select2({
+                    placeholder: "Please choose product...",
+                    dataType: 'json',
+                    ajax: {
+                        url: '/supplier_products/' + supplier_id,
+                        delay: 250,
+                        data: function(params) {
+                        return { name: params.term }
+                        },
+                        processResults: function (data, params) {
+                        return {
+                            results: $.map(data, function(value, index){
+                            return {id: value.id, text: value.name};
+                            })
+                        };
+                        cache: true
+                        }
+                    }
+
+                });
+
+            });
+
           $('.summernote').summernote();
 
           function parseCurrency( num ) {

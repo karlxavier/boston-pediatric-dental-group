@@ -24,7 +24,7 @@
                                    <div class="form-group row m-b-15">
                                         <label style="font-size: 13px;" class="col-sm-3 col-form-label">Invoice No.</label>
                                         <div class="col-sm-9">
-                                             <%= f.text_field :invoice_number, class: "form-control", placeholder: "Invoice Number", required: "" %>
+                                             <%= f.text_field :invoice_number, class: "form-control", placeholder: "Invoice Number", readonly: "", value: "INV#{(Order.last.id + 1).to_s.rjust(5, '0')}" %>
                                         </div>
                                    </div>
                                    <div class="form-group row m-b-15">
@@ -56,7 +56,6 @@
                                              association_insertion_node: "#order_products", association_insertion_method: :append
                                         } %>
                                         <h3 class="m-b-xxs" style="color: #fff; font-size: 20px; font-weight: 500;">Products</h3>
-
                                    </div>
                               </div>
                               <div class="ibox" style="margin-left: -20px; margin-right: -20px; margin-bottom: 0; background-color: #ecf0f3;">
@@ -64,9 +63,9 @@
                                         <div class="project-list">
                                              <table id="order_products" class="table table-hover">
                                                   <tbody>
-                                                       <%= f.fields_for :order_products do |ff| %>
-                                                            <%= render 'order_product_fields', f: ff %>
-                                                       <% end %>
+                                                        <%= f.fields_for :order_products do |ff| %>
+                                                                <%= render 'order_product_fields', f: ff %>
+                                                        <% end %>
                                                   </tbody>
                                              </table>
                                         </div>
@@ -117,8 +116,37 @@
 <script type="text/javascript">
      var ready = function() {
           $('#select-offices').select2({
-               placeholder: "Please choose offices"
+                placeholder: "Please choose offices"
           });
+
+            $('#order_products').on('cocoon:after-insert', function() {
+                var supplier_id = document.getElementById("supplier_id").value; 
+                $(".select2-products").select2({
+                    placeholder: "Please choose product...",
+                    width: 'resolve',
+                    dataType: 'json',
+                    ajax: {
+                        url: '/supplier_products/' + supplier_id,
+                        delay: 250,
+                        data: function(params) {
+                        return { name: params.term }
+                        },
+                        processResults: function (data, params) {
+                        return {
+                            results: $.map(data, function(value, index){
+                            return {id: value.id, text: value.name};
+                            })
+                        };
+                        cache: true
+                        }
+                    }
+
+                });
+
+                if ($('.select2-products').hasClass('select2-products')) {
+                    $('.select2-products').removeClass('select2-products');
+                }
+            });
 
           $('.summernote').summernote();
 
@@ -145,10 +173,6 @@
           });
 
           $('#order_products').on('cocoon:after-insert', function(e, insertedItem) {
-               $('.select-products').select2({
-                    placeholder: "Please choose products"
-               });
-
                // ALLOW ONLY NUMERIC AND DECIMAL
                $(".onlyNumeric").on("keypress keyup blur",function (event) {
                     $(this).val($(this).val().replace(/[^0-9\.]/g,''));

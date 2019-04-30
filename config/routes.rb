@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     get 'supplier_info/:supplier_id', :to => 'orders#supplier_info', as: 'supplier_info'
     get 'supplier_choose', :to => 'orders#supplier_choose', as: 'supplier_choose'
     get 'receive_product/:order_product_id', :to => 'orders#receive_product', as: 'receive_product'
+    get 'supplier_products/:supplier_id', :to => 'orders#supplier_products', as: 'supplier_products'
 
   resources :inventories
 

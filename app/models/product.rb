@@ -32,7 +32,7 @@ class Product < ApplicationRecord
   has_many :style_attributes
   has_many :item_messages
   has_many :inventories
-  belongs_to :vendor
+  # belongs_to :vendor
   belongs_to :product_type
   belongs_to :product_account
   belongs_to :product_cog
@@ -103,8 +103,9 @@ class Product < ApplicationRecord
     spreadsheet.row(1).each_with_index {|header,i|headers[header] = i}
     ((spreadsheet.first_row + 1)..spreadsheet.last_row).each do |row|
 
-      name = spreadsheet.row(row)[headers['Name']]
+      name = spreadsheet.row(row)[headers['Product']]
       vc_code = spreadsheet.row(row)[headers['VC']]
+      vendor_code = spreadsheet.row(row)[headers['VendorCode']]
       mfg_code = spreadsheet.row(row)[headers['Mfg Code']]
       description = spreadsheet.row(row)[headers['Extended Description']]
       vendor = spreadsheet.row(row)[headers['Vendor']]
@@ -117,6 +118,7 @@ class Product < ApplicationRecord
         prod = Product.new
         prod.name = name.nil? ? '' : name
         prod.vc_code = vc_code.nil? ? '' : vc_code
+        prod.vendor_code = vendor_code.nil? ? '' : vendor_code
         prod.mfg_code = mfg_code.nil? ? '' : mfg_code
         prod.description = description.nil? ? '' : description
         prod.vendor_id = Vendor.find_by_name(vendor).present? ? Vendor.find_by_name(vendor).id : 0

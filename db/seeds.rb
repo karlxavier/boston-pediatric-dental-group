@@ -1,3 +1,14 @@
+vendor = Vendor.where(name: "Henry Schein Inc.").first
+
+if vendor.present?
+    Product.all.each do |product|
+        if product.vendor_code = 'HS'
+            VendorsProduct.create(vendor_id: vendor.id, product_id: product.id)
+        end
+    end
+end
+
+
 # user = User.where(email: 'alisha@bpdg.com').first_or_create do |user|
 #     user.first_name = 'Alisha'
 #     user.password = 'password'
@@ -51,12 +62,12 @@
 # OfficeTimeLog.create(name: 'Arlington')
 # OfficeTimeLog.create(name: 'Other (Off-Site)')
 
-UserTimeLog.all.each do |log|
-    if log.duration.nil?
-        log.duration = (log.time_out - log.time_in).to_i
-        log.save
-    end
-end
+# UserTimeLog.all.each do |log|
+#     if log.duration.nil?
+#         log.duration = (log.time_out - log.time_in).to_i
+#         log.save
+#     end
+# end
 
 # *******************************************************
 

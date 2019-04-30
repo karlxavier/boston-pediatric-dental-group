@@ -20,8 +20,8 @@ class Vendor < ApplicationRecord
   require 'csv'
   
   has_many :vendors_products
-  # has_many :products, through: :vendors_products
-  has_many :products
+  has_many :products, through: :vendors_products
+  # has_many :products
   has_many :order_entries, through: :products
 
   has_many :vendor_categories

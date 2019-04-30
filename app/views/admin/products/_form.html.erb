@@ -51,24 +51,13 @@
           </div>
           <div class="hr-line-dashed"></div>
 
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Sales Tax</label>
+          <div class="form-group"><label class="col-sm-2 control-label">Suppliers</label>
               <div class="col-sm-10">
-                <%= f.check_box :sales_tax, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group"><label class="col-sm-2 control-label">Vendor</label>
-              <div class="col-sm-10">
-                 <%= f.collection_select( :vendor_id, Vendor.all, :id, :name, {include_blank: true}, {id: "category_selection", class: "chosen-select"})%>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group"><label class="col-sm-2 control-label">Hotel</label>
-              <div class="col-sm-10">
-                 <%= f.collection_select( :hotel_id, Hotel.all, :id, :name, {include_blank: true}, {id: "category_selection", class: "chosen-select"})%>
+                <%= collection_select(:product, :vendor_ids, 
+                    Vendor.order(:name),:id,:name, 
+                    {:prompt=>true},
+                    {class: "select2 form-control", style: "width: 100%;", multiple: true}) 
+                %>
               </div>
           </div>
           <div class="hr-line-dashed"></div>
@@ -89,84 +78,6 @@
           </div>
           <div class="hr-line-dashed"></div>
 
-          <div class="form-group"><label class="col-sm-2 control-label">Product Type</label>
-              <div class="col-sm-10">
-                 <%= f.collection_select( :product_type_id, ProductType.all, :id, :name, {include_blank: true}, {id: "category_selection", class: "chosen-select"})%>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group"><label class="col-sm-2 control-label">Account</label>
-              <div class="col-sm-10">
-                 <%= f.collection_select( :product_account_id, ProductAccount.all, :id, :name, {include_blank: true}, {id: "category_selection", class: "chosen-select"})%>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group"><label class="col-sm-2 control-label">COGS</label>
-              <div class="col-sm-10">
-                 <%= f.collection_select( :product_cog_id, ProductCog.all, :id, :name, {include_blank: true}, {id: "category_selection", class: "chosen-select"})%>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group"><label class="col-sm-2 control-label">Asset Account</label>
-              <div class="col-sm-10">
-                 <%= f.collection_select( :product_asset_account_id, ProductAssetAccount.all, :id, :name, {include_blank: true}, {id: "category_selection", class: "chosen-select"})%>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Specs</label>
-              <div class="col-sm-10">
-                <%= f.text_field :specs, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Approval</label>
-              <div class="col-sm-10">
-                <%= f.text_field :approval_status, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Online Date</label>
-              <div class="col-sm-10">
-               <div class="input-group date">
-                  <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </span>
-                  <%= f.text_field :online_date, class: "form-control", value: @product.online_date.present? ? @product.online_date.strftime("%d-%m-%Y") : '', autocomplete: :off %>
-                </div> 
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Offline Date</label>
-              <div class="col-sm-10">
-               <div class="input-group date">
-                  <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </span>
-                  <%= f.text_field :offline_date, class: "form-control", value: @product.offline_date.present? ? @product.offline_date.strftime("%d-%m-%Y") : '', autocomplete: :off %>
-                </div> 
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Sales Unit</label>
-              <div class="col-sm-10">
-                <%= f.text_field :unit, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
           <div class="form-group">
               <label class="col-sm-2 control-label">Description</label>
               <div class="col-sm-10">
@@ -175,105 +86,9 @@
           </div>
           <div class="hr-line-dashed"></div>
 
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Base Product</label>
-              <div class="col-sm-10">
-                <%= f.text_field :base_product, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
           <div class="form-group"><label class="col-sm-2 control-label">Category</label>
               <div class="col-sm-10">
                  <%= f.collection_select( :category, Category.all, :id, :name, {include_blank: true}, {id: "category_selection", class: "chosen-select"})%>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Product Variant Type</label>
-              <div class="col-sm-10">
-                <%= f.text_field :variant_type, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Style</label>
-              <div class="col-sm-10">
-                <%= f.text_field :style, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Product Variants</label>
-              <div class="col-sm-10">
-                <%= f.text_field :variants, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Product Variants</label>
-              <div class="col-sm-10">
-                <%= f.text_field :variants, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Total Cost</label>
-              <div class="col-sm-10">
-                <%= f.text_field :total_cost, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Vendor Price</label>
-              <div class="col-sm-10">
-                <%= f.text_field :vendor_price, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Full_value</label>
-              <div class="col-sm-10">
-                <%= f.text_field :full_value, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Price Per Carton</label>
-              <div class="col-sm-10">
-                <%= f.text_field :price_per_carton, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Hotel Price</label>
-              <div class="col-sm-10">
-                <%= f.text_field :hotel_price, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Per Carton</label>
-              <div class="col-sm-10">
-                <%= f.text_field :per_carton, class: "form-control" %>
-              </div>
-          </div>
-          <div class="hr-line-dashed"></div>
-
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Force in Stock</label>
-              <div class="col-sm-10">
-                <%= f.check_box :force_in_stock, class: "form-control" %>
               </div>
           </div>
           <div class="hr-line-dashed"></div>
@@ -296,6 +111,8 @@
 <script type="text/javascript">
   $(function(){
     $('.chosen-select').chosen({width: "100%"});
+
+    $('.select2').select2();
 
     $('.input-group.date').datepicker({
       format: 'dd-mm-yyyy',

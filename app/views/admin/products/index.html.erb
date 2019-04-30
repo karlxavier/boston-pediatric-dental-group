@@ -46,9 +46,10 @@
                                     <th>ID</th>
                                     <th>Status</th>
                                     <th>Name</th>
-                                    <th>Purchase Price</th>
-                                    <th>Selling Price</th>
-                                    <th>Inventory</th>
+                                    <th>Code</th>
+                                    <th>VC Code</th>
+                                    <th>MFG Code</th>
+                                    <th>Price</th>
                                     <th></th>
                                 </thead>
                                 <tbody>
@@ -63,9 +64,10 @@
                                             <% end %>
                                         </td>
                                         <td><%= link_to product.name, admin_product_path(product) %></td>
-                                        <td><%= number_to_currency(product._purchase_price, unit: '$', :precision => 2, :delimiter => ',') %></td>
+                                        <td><%= product.vendor_code %></td>
+                                        <td><%= product.vc_code %></td>
+                                        <td><%= product.mfg_code %></td>
                                         <td><%= number_to_currency(product._price, unit: '$', :precision => 2, :delimiter => ',') %></td>
-                                        <td><%= product.inventories.present? ? number_with_precision(product.inventories.first._quantity, :precision => 2, :delimiter => ',') : '0' %></td>
                                         <td>
                                           <div class="btn-group">
                                                 <%= link_to 'Edit', edit_admin_product_path(product), class: "btn btn-xs btn-white" %>

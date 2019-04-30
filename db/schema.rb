@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190424110525) do
+ActiveRecord::Schema.define(version: 20190424174123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -528,6 +528,7 @@ ActiveRecord::Schema.define(version: 20190424110525) do
     t.string "vc_code"
     t.string "mfg_code"
     t.integer "category_id"
+    t.string "vendor_code"
     t.index ["style_attribute_id"], name: "index_products_on_style_attribute_id"
     t.index ["vendor_id"], name: "index_products_on_vendor_id"
   end

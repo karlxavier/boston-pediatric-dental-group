@@ -18,7 +18,7 @@ class Order < ApplicationRecord
      # enum status: ["New", "Processed", "Received", "Cancel"]
      enum status: [:new_order, :processed, :received, :cancel]
 
-     before_save :update_net_amount
+     # before_save :update_net_amount
        
      scope :scope_orders, -> { includes(:order_products, :order_attachments, :order_offices, :offices, :vendor, :products, :user).order(id: :desc) }
      scope :scope_filter_orders, -> (status, from_date, to_date) { includes(:order_products, :order_attachments, :order_offices, :offices, :vendor, :products, :user)
@@ -26,18 +26,18 @@ class Order < ApplicationRecord
                                                                  .where(status: status)
                                                                  .order(id: :desc) }
 
-     def net_amount    
-          order_products.collect { |oi| oi.valid? ? (oi.quantity * oi.amount) : 0 }.sum
-     end
+     # def net_amount    
+     #      order_products.collect { |oi| oi.valid? ? (oi.quantity * oi.amount) : 0 }.sum
+     # end
 
-     def total_amount
-          net_amount
-     end
+     # def total_amount
+     #      net_amount
+     # end
 
-     private
+     # private
 
-     def update_net_amount
-          self[:total_amount] = total_amount
-     end
+     # def update_net_amount
+     #      self[:total_amount] = total_amount
+     # end
 
 end

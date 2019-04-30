@@ -2,7 +2,7 @@ class OrderProduct < ApplicationRecord
      belongs_to :product
      belongs_to :order
 
-     before_save :finalize
+     # before_save :finalize
 
      validates :product_id, presence: true
 

@@ -22,7 +22,7 @@
                               <div class="col-sm-6 text-right">
                                    <div class="form-group row m-b-15">
                                         <label style="font-size: 13px;" class="col-sm-3 col-form-label">Invoice No.</label>
-                                        <h3 class="text-info"><%= "INV#{Order.last.present? ? (Order.last.id + 1).to_s.rjust(5, '0') : "00001"}" %></h3>
+                                        <h3 class="text-info"><%= @order.invoice_number %></h3>
                                    </div>
                                 </div>
                                 <div class="col-sm-6 text-right">

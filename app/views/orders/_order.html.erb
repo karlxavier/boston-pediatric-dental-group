@@ -6,6 +6,9 @@
           <%= render 'order_status', order: order %>
      </td>
      <td class="footable-visible">
+          <%= order.invoice_number %>
+     </td>
+     <td class="footable-visible">
           <% if order.order_offices.present? %>
                <% order.order_offices.each do |order_office| %>
                     <span class="label" style="margin: 5px;">

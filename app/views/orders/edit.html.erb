@@ -1,5 +1,5 @@
 <div class="row">
-     <div class="col-md-8 offset-md-2">
+     <div class="col-md-10 offset-md-1">
           <%= form_for @order, html: { class: "form-horizontal" }  do |f| %>
                <h1 class="page-header">
                     <%= button_tag(type: 'Submit', class: "btn btn-primary btn-lg pull-right", style: "border-radius: 40px;") do %>
@@ -97,6 +97,10 @@
           $('#select-offices').select2({
                placeholder: "Please choose offices"
           });
+
+          $(".select2-products").select2({
+                placeholder: "Please choose product..."
+            });
 
           $('#order_products').on('cocoon:after-insert', function() {
                 var supplier_id = document.getElementById("supplier_id").value; 

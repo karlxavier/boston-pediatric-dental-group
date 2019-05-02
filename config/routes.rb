@@ -60,6 +60,10 @@ Rails.application.routes.draw do
     get 'receive_product/:order_product_id', :to => 'orders#receive_product', as: 'receive_product'
     get 'supplier_products/:supplier_id', :to => 'orders#supplier_products', as: 'supplier_products'
 
+    get 'product_info/:product_id', :to => 'orders#product_info', as: 'product_info'
+    get 'product_info_vc_code/:vc_code', :to => 'orders#product_info_vc_code', as: 'product_info_vc_code'
+    get 'product_mfg_code/:mfg_code', :to => 'orders#product_mfg_code', as: 'product_mfg_code'
+
   resources :inventories
 
   resources :products do

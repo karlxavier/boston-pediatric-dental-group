@@ -3,11 +3,14 @@
           <%= f.collection_select(:product_id, 
                Product.order(name: :desc),:id,:name, 
                {:prompt=>true},
-               {id: "select-products", class: "form-control select2-products ", style: "min-width: 100%!important;", placeholder: "Product list", required: ""}) 
+               {class: "form-control select2-products ", style: "min-width: 100%!important;", placeholder: "Product list", required: ""}) 
           %>
      </td>
      <td>
-          <%= f.text_field :quantity, class: "onlyNumeric form-control", placeholder: "Quantity", required: "", style: "font-size: 15px; font-weight: 700; text-align: center;" %>
+         <%= f.text_field :vc_code, class: "form-control vc_code" %>
+     </td>
+     <td>
+         <%= f.text_field :mfg_code, class: "form-control mfg_code" %>
      </td>
      <td>
           <%= link_to_remove_association f, class: "btn btn-white btn-sm removeProduct", style: "margin: 0;" do %>

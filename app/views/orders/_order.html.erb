@@ -6,9 +6,6 @@
           <%= render 'order_status', order: order %>
      </td>
      <td class="footable-visible">
-          <p style="font-size: 14px; font-weight: 600;"> <%= order.vendor.present? ? order.vendor.name.truncate(25, separator: '.') : '' %> </p>
-     </td>
-     <td class="footable-visible">
           <% if order.order_offices.present? %>
                <% order.order_offices.each do |order_office| %>
                     <span class="label" style="margin: 5px;">

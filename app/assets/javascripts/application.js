@@ -51,6 +51,7 @@
 //= require cropper
 //= require Timer
 //= require footable.min
+//= require sweetalert
 
 $(document).on("turbolinks:load", function() {
   $(".selectpicker").selectpicker();

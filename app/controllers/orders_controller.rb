@@ -48,7 +48,7 @@ class OrdersController < ApplicationController
 
      def create
           @order = current_user.orders.new(order_params)
-  
+          @order.invoice_number = "INV#{Order.last.present? ? (Order.last.id + 1).to_s.rjust(5, '0') : "00001"}"
           respond_to do |format|
              if @order.save
                   format.html { redirect_to orders_path }
@@ -95,24 +95,61 @@ class OrdersController < ApplicationController
         end
      end
 
-     def supplier_products
-        if params[:supplier_id]
-            @supplier = Vendor.find(params[:supplier_id])
-            @products = @supplier.products
-            puts '*********** product suppliers count'
-            puts @products.count
-            render json: @products.map{|v| v.serializable_hash(only: [:id, :name]) }
+    #  def supplier_products
+    #     if params[:supplier_id]
+    #         @supplier = Vendor.find(params[:supplier_id])
+    #         @products = @supplier.products
+    #         render json: @products.map{|v| v.serializable_hash(only: [:id, :name]) }
+    #     else
+    #         render json: []
+    #     end
+    #  end
+
+    def product_info
+        if params[:product_id]
+            @product = Product.find(params[:product_id])
+            if @product.present?
+                render json: { status: 'success', product: @product.to_json }, status: :ok
+            else
+                render json: { status: 'error', message: 'Cannot find the product.' }, status: :unprocessable_entity
+            end
         else
-            render json: []
+            render json: { status: 'error', message: 'Cannot find the product.' }, status: :unprocessable_entity
         end
-     end
+    end
+
+    def product_info_vc_code
+        if params[:vc_code]
+            @product = Product.where(vc_code: params[:vc_code])
+            if @product.present?
+                render json: { status: 'success', product: @product.first.to_json }, status: :ok
+            else
+                render json: { status: 'error', message: 'Cannot find the product.' }, status: :unprocessable_entity
+            end
+        else
+            render json: { status: 'error', message: 'Cannot find the product.' }, status: :unprocessable_entity
+        end
+    end
+
+    def product_mfg_code
+        if params[:mfg_code]
+            @product = Product.where(mfg_code: params[:mfg_code])
+            if @product.present?
+                render json: { status: 'success', product: @product.first.to_json }, status: :ok
+            else
+                render json: { status: 'error', message: 'Cannot find the product.' }, status: :unprocessable_entity
+            end
+        else
+            render json: { status: 'error', message: 'Cannot find the product.' }, status: :unprocessable_entity
+        end
+    end
 
      private
      
      def order_params
           params.require(:order).permit(
                :user_id, :vendor_id, :notes, :status, :invoice_number, office_ids: [],
-               order_products_attributes: [:id, :order_id, :product_id, :quantity, :amount, :net_amount, :_destroy],
+               order_products_attributes: [:id, :order_id, :product_id, :_destroy, :vc_code, :mfg_code],
                order_attachments_attributes: [:id, :order_id, :attachment, :_destroy]
           )
      end

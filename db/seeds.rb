@@ -1,12 +1,12 @@
-vendor = Vendor.where(name: "Henry Schein Inc.").first
+# vendor = Vendor.where(name: "Henry Schein Inc.").first
 
-if vendor.present?
-    Product.all.each do |product|
-        if product.vendor_code = 'HS'
-            VendorsProduct.create(vendor_id: vendor.id, product_id: product.id)
-        end
-    end
-end
+# if vendor.present?
+#     Product.all.each do |product|
+#         if product.vendor_code = 'HS'
+#             VendorsProduct.create(vendor_id: vendor.id, product_id: product.id)
+#         end
+#     end
+# end
 
 
 # user = User.where(email: 'alisha@bpdg.com').first_or_create do |user|

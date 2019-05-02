@@ -16,11 +16,6 @@
           <small class="label label-warning">Received</small>
      <% end %>
 </td>
-<td class="project-title" style="border: none;">
-     <strong style="font-size: 16px;"><%= order_product.quantity %></strong>
-     <br>
-     <small>Quantity</small>
-</td>
 <td style="border: none;">
      <% if order_product.status === "New" %>
           <%= link_to receive_product_path(order_product.id), class: "btn btn-warning btn-sm", remote: true do  %>

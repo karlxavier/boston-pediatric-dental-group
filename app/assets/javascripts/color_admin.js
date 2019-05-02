@@ -280,6 +280,7 @@ var floatSubMenuTimeout,
         $(window).trigger("resize");
       });
   },
+  /*
   handleDraggablePanel = function() {
     "use strict";
     var e = $('.panel:not([data-sortable="false"])').parent("[class*=col]");
@@ -296,6 +297,7 @@ var floatSubMenuTimeout,
       }
     });
   },
+  */
   handelTooltipPopoverActivation = function() {
     "use strict";
     0 !== $('[data-toggle="tooltip"]').length &&
@@ -323,6 +325,7 @@ var floatSubMenuTimeout,
           );
       });
   },
+  /*
   handleThemePageStructureControl = function() {
     if (
       ($(document).on("click", ".theme-list [data-theme]", function() {
@@ -513,6 +516,7 @@ var floatSubMenuTimeout,
             Cookies.set("header-fixed", !1));
       });
   },
+  */
   handleThemePanelExpand = function() {
     $(document).on("click", '[data-click="theme-panel-expand"]', function() {
       var e = ".theme-panel",
@@ -1383,7 +1387,7 @@ var floatSubMenuTimeout,
         handlePageContentView();
       },
       initComponent: function() {
-        (!a || (a && !a.disableDraggablePanel)) && handleDraggablePanel(),
+        (!a || (a && !a.disableDraggablePanel)),
           handleIEFullHeightContent(),
           handleSlimScroll(),
           handleUnlimitedTabsRender(),
@@ -1397,7 +1401,7 @@ var floatSubMenuTimeout,
         handleLocalStorage();
       },
       initThemePanel: function() {
-        handleThemePageStructureControl(),
+        //handleThemePageStructureControl(),
           handleThemePanelExpand(),
           handleResetLocalStorage();
       },

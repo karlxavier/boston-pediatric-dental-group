@@ -16,6 +16,16 @@
           <small class="label label-warning">Received</small>
      <% end %>
 </td>
+<td class="project-title" style="border: none;">
+     <strong style="font-size: 14px;"><%= order_product.product.vc_code %></strong>
+     <br>
+     <small>VC Code</small>
+</td>
+<td class="project-title" style="border: none;">
+     <strong style="font-size: 14px;"><%= order_product.product.mfg_code %></strong>
+     <br>
+     <small>MFG Code</small>
+</td>
 <td style="border: none;">
      <% if order_product.status === "New" %>
           <%= link_to receive_product_path(order_product.id), class: "btn btn-warning btn-sm", remote: true do  %>

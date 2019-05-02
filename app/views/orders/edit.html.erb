@@ -102,12 +102,59 @@
                 placeholder: "Please choose product..."
             });
 
-          $('#order_products').on('cocoon:after-insert', function() {
-                var supplier_id = document.getElementById("supplier_id").value; 
-                var numberID = '';
+            $('#order_products').on('cocoon:after-insert', function() {
                 $(".select2-products").select2({
                     placeholder: "Please choose product..."
                 });
+
+                $('.select2-products').on('select2:select', function (e) {
+                     numberID = $(this).attr('id').split('order_order_products_attributes_')[1].match(/\d+/)[0];
+                    var product_id = $('#order_order_products_attributes_' + numberID + '_product_id').val();
+
+                    getProductInfo(product_id, null, null).then(function(data) {
+                        const product = data['product'];
+                        const { vc_code, mfg_code } = JSON.parse(product);
+                        console.log(product)
+                        
+                        document.getElementById("order_order_products_attributes_" + numberID + "_vc_code").value = vc_code
+                        document.getElementById("order_order_products_attributes_" + numberID + "_mfg_code").value = mfg_code
+                    }, cannotFindProduct);
+                });
+
+                $(".vc_code").on("blur",function (event) {
+                     numberID = $(this).attr('id').split('order_order_products_attributes_')[1].match(/\d+/)[0];
+                    var vc_code = $('#order_order_products_attributes_' + numberID + '_vc_code').val();
+
+                    if (vc_code) {
+                        getProductInfo(null, vc_code, null).then(function(data) {
+                            const product = data['product'];
+                            const { id, name, mfg_code } = JSON.parse(product);
+
+                            $("#order_order_products_attributes_" + numberID + "_product_id").val(id).trigger('change');
+                            document.getElementById("order_order_products_attributes_" + numberID + "_mfg_code").value = mfg_code
+                        }, cannotFindProduct);
+                    }
+                });
+
+                $(".mfg_code").on("blur",function (event) {
+                     numberID = $(this).attr('id').split('order_order_products_attributes_')[1].match(/\d+/)[0];
+                    var mfg_code = $('#order_order_products_attributes_' + numberID + '_mfg_code').val();
+
+                    if (mfg_code) {
+                        getProductInfo(null, null, mfg_code).then(function(data) {
+                            const product = data['product'];
+                            const { id, name, vc_code } = JSON.parse(product);
+
+                            $("#order_order_products_attributes_" + numberID + "_product_id").val(id).trigger('change');
+                            document.getElementById("order_order_products_attributes_" + numberID + "_vc_code").value = vc_code
+                        }, cannotFindProduct);
+                    }
+                });
+            });
+
+                var supplier_id = document.getElementById("supplier_id").value; 
+                var numberID = '';
+                
 
                 const getProductInfo = (product_id, vc_code, mfg_code) => {
                     var get_url = '';
@@ -129,6 +176,10 @@
                 };
 
                 const cannotFindProduct = response => {
+                    $("#order_order_products_attributes_" + numberID + "_product_id").val(-1).trigger('change');
+                    document.getElementById("order_order_products_attributes_" + numberID + "_vc_code").value = null
+                    document.getElementById("order_order_products_attributes_" + numberID + "_mfg_code").value = null
+
                     swal({
                         type: response.status,
                         title: 'Error',
@@ -137,10 +188,6 @@
                         confirmButtonColor: '#582D11',
                         confirmButtonClass: 'btn btn-brown text-uppercase',
                         buttonsStyling: false
-                    }).then(result => {
-                        $("#order_order_products_attributes_" + numberID + "_product_id").val(-1).trigger('change');
-                        document.getElementById("order_order_products_attributes_" + numberID + "_vc_code").value = null
-                        document.getElementById("order_order_products_attributes_" + numberID + "_mfg_code").value = null
                     });
                 };
 
@@ -189,7 +236,7 @@
                 });
 
 
-            });
+            
 
           $('.summernote').summernote();
 

@@ -144,6 +144,24 @@ class OrdersController < ApplicationController
         end
     end
 
+    def generate_pdf
+        @order = Order.find(params[:order_id])
+
+        respond_to do |format|
+            format.html
+            format.pdf do
+                render pdf: "OrderNo:#{@order.id}",
+                page_size: 'A4',
+                template: "orders/generate_pdf.html.erb",
+                layout: "pdf.html",
+                print_media_type: true,
+                lowquality: true,
+                zoom: 1,
+                dpi: 75
+            end
+        end
+    end
+
      private
      
      def order_params

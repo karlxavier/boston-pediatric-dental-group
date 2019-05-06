@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     get 'product_info/:product_id', :to => 'orders#product_info', as: 'product_info'
     get 'product_info_vc_code/:vc_code', :to => 'orders#product_info_vc_code', as: 'product_info_vc_code'
     get 'product_mfg_code/:mfg_code', :to => 'orders#product_mfg_code', as: 'product_mfg_code'
+    get 'generate_pdf/:order_id', :to => 'orders#generate_pdf', as: 'generate_pdf'
 
   resources :inventories
 

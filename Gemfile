@@ -71,6 +71,9 @@ gem 'jquery-ui-rails'
 gem 'rails-jquery-autocomplete'
 gem 'pdfjs_viewer-rails'
 
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
 # for crm log audits
 gem "audited", "~> 4.7"
 gem 'summernote-rails', '~> 0.8.10.0'

@@ -1,0 +1,83 @@
+<div class="project-lists">
+     <table id="order_table" class="footable table table-stripped toggle-arrow-tiny footable-loaded phone breakpoint footable-filtering" data-paging="true" data-sorting="true" data-filter-filters='true' style="font-size: 15px;">
+          <thead>
+               <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th data-breakpoints="all" data-search-ignore="true"></th>
+                    <th data-sortable="false" data-filterable="false"></th>
+               </tr>
+          </thead>
+          <tbody>
+               <div >
+                    <% inventories.each do |inventory| %>
+                         <tr class="footable" id="inventory_<%= inventory.id %>">
+                              
+                              <td class="footable-visible">
+                                   <strong> <%= inventory.id %> </strong>
+                              </td>
+                              <td class="footable-visible">
+                                   <%= inventory.product.name %>
+                              </td>
+                              <td class="footable-visible">
+                                   <%= inventory.quantity %>
+                              </td>
+                              <td class="footable-visible">
+                                   <% if inventory.quantity < 3 %>
+                                        <span class="label label-warning">Low stock</span>
+                                   <% else %>
+                                        <span class="label label-success">Sufficient</span>
+                                   <% end %>
+                              </td>
+                              <td>
+                                   <div class="project-lists">
+                                        <table class="table table-hover" style="font-size: 15px;">
+                                             <tbody>
+                                                  <% inventory.inventory_details.each_with_index do |inventory_detail, i| %>
+                                                       <tr id="inventory_detail_<%= inventory_detail.id %>">
+                                                            <td class="project-title" style="border: none;">
+                                                                      <strong><%= inventory_detail.order_id %></strong> 
+                                                                 <br>
+                                                                 <small>Order ID</small>
+                                                            </td>
+                                                            <td class="project-title" style="border: none;">
+                                                                      <%= inventory_detail.order.invoice_number %>
+                                                                 <br>
+                                                                 <small>Invoice No.</small>
+                                                            </td>
+                                                            <td class="project-title" style="border: none;">
+                                                                      <% if inventory_detail.order.order_offices.present? %>
+                                                                           <% inventory_detail.order.order_offices.each do |order_office| %>
+                                                                                <span class="label" style="margin: 5px;">
+                                                                                     <%= order_office.office.name.truncate(20, separator: '.') %>
+                                                                                </span>
+                                                                           <% end %>
+                                                                      <% end %>
+                                                                 <br>
+                                                                 <small>Offices</small>
+                                                            </td>
+                                                            <td class="project-title" style="border: none;">
+                                                                 <%= inventory_detail.order.user.present? ? inventory_detail.order.user.full_name : '' %>
+                                                                 <br>
+                                                                 <small>Raised By</small>
+                                                            </td>
+                                                            <td class="project-title" style="border: none;">
+                                                                 <%= inventory_detail.order.created_at.strftime("%d-%b-%C %I:%M%P") %>
+                                                                 <br>
+                                                                 <small>Order Date</small>
+                                                            </td>
+
+                                                       </tr>
+                                                  <% end %>
+                                             </tbody>
+                                        </table>
+                                   </div>
+                              </td>
+                         </tr>
+                    <% end %>
+               </div>
+          </tbody>
+     </table>
+</div>

@@ -89,6 +89,17 @@ class OrdersController < ApplicationController
         if @order_product.present?
             respond_to do |format|
                 @order_product.update_attributes(status: 1, received_on: Time.now)
+
+                inventory = Inventory.where(product_id: @order_product.product_id).first
+                if inventory.present?
+                    inventory.quantity = inventory.quantity.to_i + 1
+                    inventory.save
+                else
+                    inventory =  Inventory.create(quantity: 1, product_id: @order_product.product_id)
+                end
+
+                inventory.inventory_details.create(order_id: @order.id)
+
                 @order.update_attributes(status: 2)
                 format.js
             end

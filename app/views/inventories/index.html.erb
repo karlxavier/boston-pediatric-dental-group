@@ -13,15 +13,48 @@
                          <div class="ibox" style="margin-left: -20px; margin-right: -20px; background-color: #ecf0f3;">
                               <div class="ibox-title" style="border: none;">
 
-                    
+                                   <%= form_for :filter, html: {class: "form-inline alert alert-secondary"}, method: :get, remote: true do |f| %>
+                                        
+                                             <label class="form-group m-r-10">
+                                                  <small>Product Name</small>     
+                                             </label>
+                                             <div class="form-group m-r-10">
+                                                  <%= f.text_field :product_name, class: "form-control", placeholder: "Product Name" %>
+                                             </div>
+                                       
+                                             <label class="form-group m-r-10" style="margin-left: 20px;">
+                                                  <small>Status</small>     
+                                             </label>
+                                             <div class="form-group m-r-10">
+                                                  <div class="radio radio-css radio-inline">
+                                                       <%= f.radio_button :inventory_status, :all, checked: true %>
+											<label for="filter_inventory_status_all">All</label>
+										</div>
+                                                  <div class="radio radio-css radio-inline">
+                                                       <%= f.radio_button :inventory_status, :low %>
+											<label for="filter_inventory_status_low">Low Stock</label>
+										</div>
+                                                  <div class="radio radio-css radio-inline">
+                                                       <%= f.radio_button :inventory_status, :sufficient %>
+											<label for="filter_inventory_status_sufficient">Sufficient</label>
+										</div>
+                                             </div>
+                                             
+                                             <div class="float-right" style="margin-left:auto;">
+                                                  <%= f.submit 'Filter', class: "btn btn-primary m-r-5", id: "filter_orders" do %>
+                                                       Filter
+                                                  <% end %>
+                                             </div>
+                                             
+                                   <% end %>
 
                               </div>
-                              <div class="ibox-content" id="table_orders" style="border: none;">
+                              <div class="ibox-content" id="table_inventories" style="border: none;">
                                    <div class="sk-spinner sk-spinner-double-bounce">
                                         <div class="sk-double-bounce1"></div>
                                         <div class="sk-double-bounce2"></div>
                                    </div>
-                                   
+                                   <%= render 'inventories', inventories: @inventories %>
                               </div>
                          </div>
                     </div>
@@ -29,3 +62,27 @@
           </div>
      </div>
 </div>
+<script type="text/javascript">
+     $(function(){
+          $('#order_table').footable({
+               "paging": {
+                    "size": 10
+               },
+               "filtering": {
+                    "enabled": false
+               }
+          });
+
+          $("#datetimepicker1").datetimepicker({
+               format:'YYYY-MM-DD',
+          });
+
+          $("#datetimepicker2").datetimepicker({
+               format:'YYYY-MM-DD',
+          });
+
+          $('#filter_orders').click(function() {
+               $('#table_orders').addClass('sk-loading');
+          });
+     });
+</script>

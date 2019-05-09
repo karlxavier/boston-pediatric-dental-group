@@ -1,0 +1,10 @@
+$("#table_inventories").html("<%= escape_javascript(render 'inventories', inventories: @inventories ) %>");
+$('#order_table').footable({
+     "paging": {
+          "size": 10
+     },
+     "filtering": {
+          "enabled": false
+     }
+});
+$('#table_orders').removeClass('sk-loading');

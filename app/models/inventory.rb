@@ -19,10 +19,21 @@ class Inventory < ApplicationRecord
   # end
 
 	belongs_to :product
+	has_many :inventory_details
+	has_many :orders, through: :inventory_details
 
 	validates :product_id, presence: true
 
 	scope :inventory_with_products, -> { includes(:product) }
+
+	scope :filter_status_all, -> (product_name) { joins(:product)
+										.where("products.name LIKE ?", "%#{product_name}%") }
+
+	scope :filter_status_low, -> (product_name) { joins(:product)
+										.where("products.name LIKE ? AND inventories.quantity < 3", "%#{product_name}%") }
+
+	scope :filter_status_sufficient, -> (product_name) { joins(:product)
+										.where("products.name LIKE ? AND inventories.quantity >= 3", "%#{product_name}%") }
 
 	def _quantity
     	quantity || 0

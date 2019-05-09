@@ -6,6 +6,8 @@ class Order < ApplicationRecord
      has_many :order_products, dependent: :destroy
      has_many :products, through: :order_products
      has_many :order_attachments
+     has_many :inventory_details
+     has_many :inventories, through: :inventory_details
 
      accepts_nested_attributes_for :order_products,
                                    allow_destroy: true,

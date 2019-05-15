@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190515175450) do
+ActiveRecord::Schema.define(version: 20190515190351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -576,6 +576,12 @@ ActiveRecord::Schema.define(version: 20190515175450) do
     t.string "vendor_code"
     t.index ["style_attribute_id"], name: "index_products_on_style_attribute_id"
     t.index ["vendor_id"], name: "index_products_on_vendor_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "default_country_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "style_attributes", force: :cascade do |t|

@@ -72,6 +72,8 @@ GEM
     arel (8.0.0)
     audited (4.7.1)
       activerecord (>= 4.0, < 5.3)
+    authy (2.7.5)
+      httpclient (>= 2.5.3.3)
     autoprefixer-rails (9.1.1)
       execjs
     aws-sdk (2.11.144)
@@ -126,6 +128,9 @@ GEM
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
+    devise-jwt (0.5.9)
+      devise (~> 4.0)
+      warden-jwt_auth (~> 0.3.6)
     devise_token_auth (0.1.43)
       devise (> 3.5.2, < 4.5)
       rails (< 6)
@@ -134,8 +139,20 @@ GEM
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
     down (4.5.0)
+    dry-auto_inject (0.6.1)
+      dry-container (>= 0.3.4)
+    dry-configurable (0.8.2)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.4, >= 0.4.7)
+    dry-container (0.7.0)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.1, >= 0.1.3)
+    dry-core (0.4.7)
+      concurrent-ruby (~> 1.0)
     erubi (1.7.0)
     execjs (2.7.0)
+    faraday (0.15.4)
+      multipart-post (>= 1.2, < 3)
     fastimage (2.1.3)
     feathericon-rails (0.11.0)
       rails (>= 4.0.0)
@@ -148,6 +165,7 @@ GEM
       activerecord (>= 4.0.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    httpclient (2.8.3)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     i18n_data (0.8.0)
@@ -165,6 +183,7 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     json (2.1.0)
+    jwt (2.1.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.1.1)
@@ -200,6 +219,7 @@ GEM
     money (6.12.0)
       i18n (>= 0.6.4, < 1.1)
     multi_json (1.13.1)
+    multipart-post (2.1.1)
     nio4r (2.2.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
@@ -316,6 +336,10 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.2.0)
+    twilio-ruby (5.22.3)
+      faraday (~> 0.9)
+      jwt (>= 1.5, <= 2.5)
+      nokogiri (>= 1.6, < 2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.6)
@@ -323,6 +347,11 @@ GEM
     unicode_utils (1.4.0)
     warden (1.2.7)
       rack (>= 1.0)
+    warden-jwt_auth (0.3.6)
+      dry-auto_inject (~> 0.6)
+      dry-configurable (~> 0.8)
+      jwt (~> 2.1)
+      warden (~> 1.2)
     web-console (3.5.1)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -352,6 +381,7 @@ DEPENDENCIES
   amoeba
   annotate
   audited (~> 4.7)
+  authy
   aws-sdk (< 3.0)
   bcrypt (~> 3.1, >= 3.1.11)
   byebug
@@ -361,6 +391,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   country_select (~> 3.1)
   devise
+  devise-jwt
   devise_token_auth
   dotenv-rails
   fastimage
@@ -371,6 +402,7 @@ DEPENDENCIES
   image_processing
   jbuilder (~> 2.5)
   jquery-ui-rails
+  jwt
   listen (>= 3.0.5, < 3.2)
   mini_magick
   paperclip (~> 5.2.1)
@@ -394,6 +426,7 @@ DEPENDENCIES
   summernote-rails (~> 0.8.10.0)
   textacular (~> 5.0)
   turbolinks (~> 5.0.0)
+  twilio-ruby
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)

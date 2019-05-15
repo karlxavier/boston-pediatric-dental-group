@@ -39,7 +39,20 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
-
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host:ENV['DEFAULT_EMAIL_URL'] }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.office365.com",
+    :port                 => 587,
+    :user_name            => ENV['DEFAULT_EMAIL'],
+    :password             => ENV['EMAIL_PASSWORD'],
+    :authentication       => :login,
+    :enable_starttls_auto => true
+  }
   # ============================= For AWS ==================
   # config.action_cable.url = 'ws://aws-production.5fsrj3kfbx.us-west-2.elasticbeanstalk.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://aws-production.5fsrj3kfbx.us-west-2.elasticbeanstalk.com' ]

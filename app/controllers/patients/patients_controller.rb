@@ -37,6 +37,8 @@ class Patients::PatientsController < ApplicationController
                               Authy::API.request_sms(id: @patient.authy_id)
                               format.js { render action: "valid_mobile" }
                          else
+                              puts '*********** authy errors'
+                              puts authy.errors
                               flash.now[:mobile_errors] = "Authy API error. Please contact Administrator."
                               format.js { render action: "invalid_mobile" }
                          end

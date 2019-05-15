@@ -1,0 +1,9 @@
+<%= form_for [:patients, @patient], html: { class: "margin-bottom-0" }, remote: true do |f| %>
+     <h4>Token Verification</h4>
+     <div class="form-group m-b-20">
+          <%= f.text_field :token, autofocus: true, class: "form-control form-control-lg", placeholder: "Token", required: "" %>
+     </div>
+     <div class="login-buttons">
+          <%= f.submit "Verify", class: "btn btn-success btn-block btn-lg" %>
+     </div>
+<% end %>

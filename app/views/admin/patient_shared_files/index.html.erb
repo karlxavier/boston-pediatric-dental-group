@@ -1,0 +1,21 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Shared Files</h2>
+        <ol class="breadcrumb">
+            <li>
+                <%= link_to 'Dashboard', admin_root_path %>
+            </li>
+            <li>
+              <%= link_to 'Shared Files List', admin_patient_shared_files_path %>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div id="shared_files" class="wrapper wrapper-content">
+    <div class="row">
+        <%= render 'shared_files', shared_files: @shared_files %>
+    </div>
+</div>

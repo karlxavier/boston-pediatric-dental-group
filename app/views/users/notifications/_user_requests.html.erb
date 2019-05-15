@@ -1,0 +1,28 @@
+<div class="widget-list widget-list-rounded m-b-30" id="user_requests">
+     <% @user_requests.each do |request| %>
+          <div class="widget-list-item">
+               <div class="widget-list-media icon">
+                    <% if request.request_type === 'edit_request' %>
+                    <i class="fa fa-paste bg-inverse text-white"></i>
+                    <% else %>
+                    <i class="fa fa-save bg-inverse text-white"></i>
+                    <% end %>
+               </div>
+               <div class="widget-list-content" style="padding: 20px;">
+                    <h4 class="widget-list-title"><%= request.remarks %></h4>
+                    <small><%= request.request_type === 'edit_request' ? 'Request Update' : 'Request Add'  %></small>
+               </div>
+               <div class="widget-list-action text-right">
+                    <% if request.is_approve == true %>
+                         <% if request.request_type === 'edit_request' %>
+                              <%= link_to 'Execute', users_execute_edit_timelog_path(request.id), class: "btn btn-success btn-sm m-r-5", remote: true %>
+                         <% else %>
+                              <%= link_to 'Execute', users_execute_new_timelog_path(request.id), class: "btn btn-success btn-sm m-r-5", remote: true %>
+                         <% end %>
+                    <% else %>
+                         <span class="label label-warning">Pending</span>
+                    <% end %>
+               </div>
+          </div>
+     <% end %>
+</div>

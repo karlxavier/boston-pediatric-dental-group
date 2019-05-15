@@ -42,7 +42,7 @@
                             <tr>
                                 <td><%= order.id %></td>
                                 <td><%= link_to "Order-#{order.id}", admin_order_path(order) %></td>
-                                <td><%= order.order_status.present? ? order.order_status.name : '' %></td>
+                                <td><%= order.status.present? ? order.status : '' %></td>
                                 <td><%= order.customer.present? ? order.customer.name : '' %></td>
                                 <td>
                                     <% if order.brand.present? %>

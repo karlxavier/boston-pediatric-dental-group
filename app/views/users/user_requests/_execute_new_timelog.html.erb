@@ -1,0 +1,77 @@
+<div id="modal-shows">
+    <div class="modal fade" id="modal-dialog" style="display: none;">
+        <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <h3 style="color: #242a30;">
+                        New Timelog
+                    </h3>
+                    <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                </div>
+                <%= form_for [:users, UserTimeLog.new], url: { controller: 'user_time_logs', action: 'execute_create_timelog' }, html: { class: "form-horizontal", remote: true } do |f| %>
+                    <div class="modal-body">
+                        <%= f.hidden_field :request_id, value: @request_id %>
+                        <div class="form-group">
+                            <label>Woking On</label> 
+                            <%= f.text_field :description, class: "form-control", required: "" %>
+                            <div class="btn-group btn-group-justified" style="width: 100%; margin-bottom: 20px;">
+                                <button id="btnArlington" onclick="arlington()" class="btn btn-primary btn-block btn-outline" style="margin-top: 8px;" type="button" >Arlington</button>
+                                <button id="btnCambridge" onclick="cambridge()" class="btn btn-primary btn-block btn-outline" type="button" >Cambridge</button>
+                                <button id="btnLynn" onclick="lynn()" class="btn btn-primary btn-block btn-outline" type="button" >Lynn</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label> 
+                            <div class="input-group date" id="datetimepicker1">
+                                <%= f.text_field :created_at, class: "form-control", placeholder: "Date filter", required: "" %>
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Time In</label> 
+                            <div class="input-group bootstrap-timepicker timepicker">
+                                <%= f.text_field :time_in, class: "form-control input-small timepicker1", required: "", readonly: true %>
+                                <span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Time Out</label> 
+                            <div class="input-group bootstrap-timepicker timepicker">
+                                <%= f.text_field :time_out, class: "form-control input-small timepicker2", required: "", readonly: true %>
+                                <span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                        <%= button_tag(type: 'Submit', class: "btn btn-primary") do %>
+                            Save Timelog
+                        <% end %> 
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.timepicker2').timepicker();
+    $('.timepicker1').timepicker();
+     $("#datetimepicker1").datetimepicker({
+        format:'YYYY-MM-DD',
+    });
+
+    function arlington() {
+        document.getElementById("user_time_log_description").value = "Arlington";
+    }
+
+    function cambridge() {
+        document.getElementById("user_time_log_description").value = "Cambridge";
+    }
+
+    function lynn() {
+        document.getElementById("user_time_log_description").value = "Lynn";
+    }
+</script>
+

@@ -38,6 +38,12 @@
                     <% end %>
                 </li>
                 <li>
+                    <%= link_to admin_offices_path, style: "display: block;" do %>
+                        <i class="fa fa-university"></i> 
+                        <span class="nav-label">Offices</span>
+                    <% end %>
+                </li>
+                <li>
                     <%= link_to admin_user_time_logs_path, style: "display: block;" do %>
                         <i class="fa fa-clock"></i> 
                         <span class="nav-label">Time Logs</span>
@@ -59,7 +65,16 @@
                     <% end %>
                 </li>
                 <li>
-                    <a href="#" style="display: block" >
+                    <%= link_to admin_user_requests_path, style: "display: block;" do %>
+                        <i class="fa fa-retweet"></i> 
+                        <span class="nav-label">User Requests </span>
+                        <% if user_requests_count > 0 %>
+                            <span class="label label-warning pull-right"><%= user_requests_count %></span>
+                        <% end %>
+                    <% end %>
+                </li>
+                <li>
+                    <a href="#" style="display: none;" >
                         <i class="fa fa-bar-chart-o"></i> 
                         <span class="nav-label">Orders</span>
                         <span class="fa arrow"></span>
@@ -74,7 +89,7 @@
                     </ul>
                 </li>
                 <li>
-                    <%= link_to admin_customers_path, style: "display: block;" do %>
+                    <%= link_to admin_customers_path, style: "display: none;" do %>
                         <i class="fa fa-globe"></i> 
                         <span class="nav-label">Customers</span>
                     <% end %>
@@ -86,9 +101,21 @@
                     <% end %>
                 </li>
                 <li>
+                    <%= link_to admin_patients_path, style: "display: block;" do %>
+                    	<i class="fa fa-wheelchair"></i> 
+                    	<span class="nav-label">Patients</span>
+                    <% end %>
+                </li>
+                <li>
                     <%= link_to admin_document_uploads_path, style: "display: block;" do %>
-                        <i class="fa fa-clock"></i> 
+                        <i class="fas fa-file-upload"></i> 
                         <span class="nav-label">Uploaded Documents</span>
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to admin_patient_shared_files_path, style: "display: block;" do %>
+                        <i class="fas fa-share-alt"></i> 
+                        <span class="nav-label">Patient Documents</span>
                     <% end %>
                 </li>
                 <li>
@@ -121,6 +148,36 @@
                         <span class="nav-label">Brands</span>
                     <% end %>
                 </li>
+                <li>
+                    <%= link_to admin_hotels_path, style: "display: none;" do %>
+                        <i class="fa fa-bank"></i> 
+                        <span class="nav-label">Hotels</span>
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to admin_groups_path, style: "display: none;" do %>
+                        <i class="fa fa-object-group"></i> 
+                        <span class="nav-label">Groups</span>
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to admin_style_attributes_path, style: "display: none;" do %>
+                        <i class="fa fa-paint-brush"></i> 
+                        <span class="nav-label">Style Attributes</span>
+                    <% end %>
+                </li>
+              <li>
+                <%= link_to admin_default_templates_path, style: "display: none;" do %>
+                  <i class="fa fa-envelope-open"></i>
+                  <span class="nav-label">Default Template</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to admin_users_groups_path, style: "display: none;" do %>
+                  <i class="fa fa-users"></i>
+                  <span class="nav-label">User Groups</span>
+                <% end %>
+              </li>
             </ul>
         </div>
     </nav>

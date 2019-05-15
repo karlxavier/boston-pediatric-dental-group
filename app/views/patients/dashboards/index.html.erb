@@ -1,0 +1,26 @@
+<div class="p-content-container">
+     <div class="p-content-title">
+          <h2 class="p-content-text">Dashboard</h2>
+     </div>
+</div>
+<div class="p-content">
+     <div class="row">
+          <div class="col-lg-6 offset-lg-3">
+               <div class="ibox ">
+                    <div class="ibox-content text-center p-md">
+
+                    <h2 class="p-h2">
+                         <span class="p-text-primary">Welcome</span>
+                         <%= current_patient.full_name.present? ? current_patient.full_name : '' %>
+                    </h2>
+
+                    <p>
+                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    </p>
+
+
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>

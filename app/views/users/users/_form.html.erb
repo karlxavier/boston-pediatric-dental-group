@@ -1,0 +1,30 @@
+<div class="register-content">
+    <%= form_for [:users, @user], class: "margin-bottom-0" do |f| %>
+        <%= render 'layouts/static/error_messages' %>
+        <label class="control-label">Name <span class="text-danger">*</span></label>
+        <div class="row row-space-10">
+            <div class="col-md-6 m-b-15">
+                <%= f.text_field :first_name, class: "form-control", placeholder: "First Name", required: "" %>
+            </div>
+            <div class="col-md-6 m-b-15">
+                <%= f.text_field :last_name, class: "form-control", placeholder: "Last Name", required: "" %>
+            </div>
+        </div>
+        <label class="control-label">Email <span class="text-danger">*</span></label>
+        <div class="row m-b-15">
+            <div class="col-md-12">
+                <%= f.text_field :email, class: "form-control", placeholder: "Email", required: "" %>
+            </div>
+        </div>
+        <label class="control-label">Password <span class="text-danger">*</span></label>
+        <div class="row m-b-15">
+            <div class="col-md-12">
+                <%= f.password_field :password, class: "form-control", placeholder: "Password", required: "" %>
+            </div>
+        </div>
+
+        <div class="register-buttons">
+            <%= f.submit "Update", class: "btn btn-primary btn-block btn-lg" %>
+        </div>
+    <% end %>
+</div>

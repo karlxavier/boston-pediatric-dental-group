@@ -1,0 +1,8 @@
+swal({
+     title: 'Confirmed!',
+     html: 'Your mobile number has been successfully verified.',
+     type: 'success',
+     confirmButtonText: 'Continue'
+     }, function () {
+          window.location.href = "<%= patients_root_path %>";
+     });

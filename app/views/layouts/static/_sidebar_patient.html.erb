@@ -1,0 +1,30 @@
+<div id="sidebar" class="sidebar p-sidebar">
+     <div class="slimScrollDiv">
+          <ul class="nav" id="side-menu" style="height: auto;">
+               <li class="p-sidebar-link <%= controller.class.name.split("::").second == 'DashboardsController' ? 'active' : '' %>">
+                    <%= link_to patients_patient_dashboards_path(current_patient) do %>
+                         <span>
+                              <i class="fas fa-gears p-sidebar-icon" style=""></i> 
+                         </span>
+                         <span class="p-sidebar-text">Dashboard</span> 
+                    <% end %>
+               </li>
+               <li class="p-sidebar-link <%= controller.class.name.split("::").second == 'DocumentUploadsController' ? 'active' : '' %>" style="padding-top: 0;">
+                    <%= link_to patients_patient_document_uploads_path(current_patient) do %>
+                         <span>
+                              <i class="fas fa-inbox p-sidebar-icon" style=""></i> 
+                         </span>
+                         <span class="p-sidebar-text">Received Files</span> 
+                    <% end %>
+               </li>
+               <li class="p-sidebar-link <%= controller.class.name.split("::").second == 'PatientSharedFilesController' ? 'active' : '' %>" style="padding-top: 0;">
+                    <%= link_to patients_patient_shared_files_path do %>
+                         <span>
+                              <i class="fas fa-share-square p-sidebar-icon" style=""></i> 
+                         </span>
+                         <span class="p-sidebar-text">Shared Files</span> 
+                    <% end %>
+               </li>
+          </ul>
+     </div>
+</div>

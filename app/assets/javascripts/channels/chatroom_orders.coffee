@@ -25,14 +25,16 @@ App.chatroom_orders = App.cable.subscriptions.create "ChatroomOrdersChannel",
       chat_messages = $("#chatroom_msgs")[0]
       if chat_messages
         height = chat_messages.scrollHeight
-        $(chat_messages).scrollTop(height)
+        # $(chat_messages).scrollTop(height)
+        $(chat_messages).animate({ scrollTop: $(chat_messages).prop("scrollHeight")}, 1000)
     else if chatbox.length > 0
       chatbox.append(data.message)
 
       chat_messages = $("#chatroom_msgs")[0]
       if chat_messages
         height = chat_messages.scrollHeight
-        $(chat_messages).scrollTop(height)
+        # $(chat_messages).scrollTop(height)
+        $(chat_messages).animate({ scrollTop: $(chat_messages).prop("scrollHeight")}, 1000)
     # else
     #     toastr.options =
     #     closeButton: true

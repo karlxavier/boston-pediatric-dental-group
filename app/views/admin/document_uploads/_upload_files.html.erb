@@ -4,7 +4,7 @@
         <div class="modal-content animated bounceInRight">
                 <div class="modal-header">
                     <h3>
-                        Create New Folder
+                        Upload Files
                     </h3>
                     <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 </div>
@@ -14,16 +14,37 @@
                                 <label class="btn btn-success pointer-cursor" style="z-index: 1;">
                                     <i class="fa fa-paperclip"></i>
                                     Browse Files
-                                    <%= f.file_field :attachment, id: 'message-attachment', class: 'd-none', title: "Image upload" %>
+                                    <%= f.file_field :attachment, id: 'message-attachment', class: 'd-none', title: "Image upload", multiple: true %>
                                 </label>
                             </div> 
                             <div class="form-group">
                                 <label>Shared To</label>
-                                    <%= collection_select(:document_upload, :user_ids, 
-                                        User.order(:email),:id,:full_name, 
-                                        {:prompt=>true},
-                                        {class: "select2 form-control", style: "width: 100%;", multiple: true}) 
-                                    %>
+                                <div class="tabs-container">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li><a class="nav-link nav-li-a active show" data-toggle="tab" href="#tab-1"> Employees</a></li>
+                                        <li><a class="nav-link nav-li-a" data-toggle="tab" href="#tab-2">Patients</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" id="tab-1" class="tab-pane active show">
+                                            <div class="panel-body">
+                                                <%= collection_select(:document_upload, :user_ids, 
+                                                    User.order(:email),:id,:full_name, 
+                                                    {:prompt=>true},
+                                                    {class: "select2 form-control", style: "width: 100%;", multiple: true}) 
+                                                %>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" id="tab-2" class="tab-pane">
+                                            <div class="panel-body">
+                                                <%= collection_select(:document_upload, :patient_ids, 
+                                                    Patient.order(:email),:id,:full_name, 
+                                                    {:prompt=>true},
+                                                    {class: "select2 form-control", style: "width: 100%;", multiple: true}) 
+                                                %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <% if @parent.present? %>
                                 <%= f.hidden_field :document_upload_id, value: @parent.id %>
@@ -43,7 +64,6 @@
 <script type="text/javascript">
   $(function(){
     $('.chosen-select').chosen({width: "100%"});
-
     $('.select2').select2();
   })
 </script>

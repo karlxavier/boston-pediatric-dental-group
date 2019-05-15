@@ -45,6 +45,7 @@ class User < ApplicationRecord
   has_many :groups
   has_many :orders
   has_many :users_brands
+  has_many :user_requests
   has_many :user_time_logs
   has_many :users_group_details
   has_many :users_groups, through: :users_group_details

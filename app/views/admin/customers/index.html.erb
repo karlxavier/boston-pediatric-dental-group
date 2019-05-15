@@ -26,7 +26,7 @@
                             <div class="ibox-tools">
                                 <a data-toggle="dropdown" id="#upload-customers" href="#" aria-expanded="false" class="btn btn-primary btn-sm"> Upload Customers</a>
                                 <ul id="upload-customers" class="dropdown-menu dropdown-messages2" aria-labelledby="upload-customers">
-                                    <%= form_tag customers_import_csv_path, multipart: true do %>
+                                    <%= form_tag admin_customers_import_csv_path, multipart: true do %>
                                         <div class="form-group">
                                           <label for="exampleFormControlFile1">Import Here:</label>
                                           <%= file_field_tag :file %>

@@ -1,0 +1,27 @@
+$('#modal-shows').replaceWith('<%= j render partial: "new" %>');
+$('#modal-dialog').modal('show');
+
+Dropzone.autoDiscover = false;
+
+if ($('#picture_dropzone').length) {            
+     var pictureDropzone = new Dropzone('#picture_dropzone', {
+          url: $('#picture_dropzone').data('url'),
+          previewTemplate: $('#dropzone_preview_template').html(),
+          previewsContainer: '#dropzone_previews_container',
+          headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          },
+          maxFileSize: 15
+     });
+
+     pictureDropzone.on('success', function(file, response) {
+          $('#pictures').append(response.picture);
+
+          setTimeout(function() {
+               pictureDropzone.removeFile(file)
+
+               $('#modal-dialog').modal('hide');
+               location.reload();
+          }, 3500);
+     });
+}

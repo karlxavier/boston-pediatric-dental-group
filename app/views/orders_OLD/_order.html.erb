@@ -1,8 +1,0 @@
-<div class="widget-list-item">
-    <div id="order-<%= order.id %>" class="cardlist widget-list-content">
-        <%= link_to order_path(order), class: "order-link", style: "margin-left: 10px;", remote: true do %>
-            <h4 class="widget-list-title"><%= order.id %> - <%= order.brand_name %></h4>
-            <p class="widget-list-desc"><%= order.created_date %></p>
-        <% end %>
-    </div>
-</div>

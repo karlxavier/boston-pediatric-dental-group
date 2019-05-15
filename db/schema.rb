@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190508183513) do
+ActiveRecord::Schema.define(version: 20190515175450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20190508183513) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "patient_id"
   end
 
   create_table "document_uploads", force: :cascade do |t|
@@ -457,6 +458,41 @@ ActiveRecord::Schema.define(version: 20190508183513) do
     t.integer "vendor_id"
   end
 
+  create_table "patient_shared_files", force: :cascade do |t|
+    t.integer "patient_id"
+    t.text "attachment_data"
+    t.string "notes_string"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.datetime "confirmed_at"
+    t.boolean "status", default: true
+    t.string "full_name"
+    t.string "mobile_no"
+    t.boolean "confirmed", default: false
+    t.string "authy_id"
+    t.string "area_code"
+    t.string "pin"
+    t.string "token"
+    t.integer "office_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_patients_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_patients_on_reset_password_token", unique: true
+  end
+
   create_table "product_accounts", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -562,6 +598,21 @@ ActiveRecord::Schema.define(version: 20190508183513) do
   end
 
   create_table "time_log_works", force: :cascade do |t|
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_requests", force: :cascade do |t|
+    t.integer "user_id"
+    t.boolean "is_approve", default: false
+    t.string "remarks"
+    t.integer "request_type"
+    t.integer "user_time_log_id"
+    t.datetime "date"
+    t.boolean "executed", default: false
+    t.datetime "time_in"
+    t.datetime "time_out"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

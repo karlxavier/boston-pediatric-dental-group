@@ -11,14 +11,14 @@ class Admin::DocumentUploadsController < Admin::BaseController
     end
 
     def create
-        @document_upload = DocumentUpload.new(doc_params)
 
         respond_to do |format|
-           if @document_upload.save
-                format.html { redirect_to admin_document_uploads_path }
-            else
-                format.html { render 'new' }
+            params[:document_upload][:attachment].each do |file|
+                @document_upload = DocumentUpload.new(doc_params)
+                @document_upload.attachment = file
+                @document_upload.save
             end
+            format.html { redirect_to admin_document_uploads_path }
         end
     end
 
@@ -89,7 +89,7 @@ class Admin::DocumentUploadsController < Admin::BaseController
     private
 
         def doc_params
-            params.require(:document_upload).permit(:description, :attachment, :document_upload_id, user_ids: [])
+            params.require(:document_upload).permit(:description, :attachment, :document_upload_id, user_ids: [], patient_ids: [])
         end
 
         def set_document

@@ -1,6 +1,7 @@
 class UserTimeLog < ApplicationRecord
     belongs_to :user
     belongs_to :office_time_log
+    has_many :user_requests
 
     # validates :time_in, uniqueness: true
     validates_uniqueness_of :time_in, scope: %i[user_id description]

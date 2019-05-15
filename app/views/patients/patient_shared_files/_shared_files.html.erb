@@ -1,0 +1,68 @@
+<table class="table table-hover dataTables-List dataTable">
+     <thead>
+          <tr role="row">
+          <th></th>
+          <th></th>
+          <th></th>
+     </thead>
+     <tbody>
+          <% current_patient.patient_shared_files.order(created_at: :desc).each do |shared_file| %>
+
+               <% 
+                    if shared_file.attachment_data.present?
+                         attachment_data = JSON.parse(shared_file.attachment_data, object_class: OpenStruct) 
+                         mime_type = attachment_data.original.metadata.mime_type
+                    else
+                         attachment_data = ''
+                         mime_type = ''
+                    end
+               %>
+
+               <tr>
+                    <td class="contact-type" style="padding-right: 0;">
+                         <% if mime_type === 'application/pdf' %>
+                              <i class="fa fa-file-pdf-o fa-4x text-danger" aria-hidden="true"></i>
+                         <% elsif mime_type === 'application/zip' %>
+                              <i class="fa fa-file-zip-o fa-4x text-danger" aria-hidden="true"></i>
+                         <% elsif mime_type.include? "image" %>
+                              <i class="fa fa-file-image-o fa-4x text-warning" aria-hidden="true"></i>
+                         <% elsif mime_type.include? "sheet" %>
+                              <i class="fa fa-file-excel-o fa-4x text-success" aria-hidden="true"></i>
+                         <% elsif mime_type.include? "officedocument" %>
+                              <i class="fa fa-file-word-o fa-4x text-info" aria-hidden="true"></i>
+                         <% elsif mime_type === 'text/plain' %>
+                              <i class="fa fa-file-excel-o fa-4x text-success" aria-hidden="true"></i>
+                         <% elsif mime_type === '' %>
+                              <i class="fa fa-folder fa-4x text-muted" aria-hidden="true"></i>
+                         <% else %>
+                              <i class="fa fa-file-code-o fa-4x text-muted" aria-hidden="true"></i>
+                         <% end %>
+                    </td>
+                    <td class="project-title">
+                         <b class="text-inverse" style="font-size: 14px;">
+                              <%= attachment_data.original.metadata.filename %>
+                         </b>
+                         <br>
+                         <small>Created <strong><%= shared_file.created_at.strftime("%d-%b-%C %I:%M %P") %></strong></small>
+                    </td>
+                    <td class="project-completion">
+                         <small>Shared On</small>
+                         <div>
+                              <%= shared_file.created_at.strftime("%d-%b-%C %I:%M %P") %>
+                         </div>
+                    </td>
+               </tr>
+          <% end %>
+     </tbody>
+</table>
+<script type="text/javascript">
+     if (! $('.dataTables-List').hasClass('initialized')) {
+          $('.dataTables-List').not('.initialized').addClass('initialized').DataTable({
+               pageLength: 5,
+               searching: true,
+               responsive: true,
+               ordering: false,
+               lengthChange: false
+          });
+     };
+</script>

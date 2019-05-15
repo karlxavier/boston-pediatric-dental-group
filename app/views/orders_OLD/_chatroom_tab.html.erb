@@ -1,6 +1,0 @@
-<% if chatroom.present? %>
-      <%= render '/messages/messages', active_room: chatroom, messages: chatroom.messages.order(created_at: :desc).limit(100).reverse %> 
-<% end %>
-
-
-

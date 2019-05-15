@@ -1,0 +1,27 @@
+<div class="login">
+     <div class="login-header">
+          <h1 class="page-header">Mobile Verification</h1>
+          <div class="m-t-20">
+               In order to protect the security of your account, please add your mobile number.
+               We will send a text message with a verification code that you'll need to verify here.
+          </div>
+     </div>
+     <div class="login-content" style="margin-top: 20px;">
+          <div id="error-msgs">
+          </div>
+          <div id="confirmation-content">
+               <div class="alert alert-info">
+                    <i class="fa fa-exclamation-circle fa-2x" style="margin-right: 7px;"></i>
+                    Enter your mobile number without the country code.
+               </div>
+               <%= form_for [:patients, @patient], html: { class: "margin-bottom-0" }, remote: true do |f| %>
+                    <div class="form-group m-b-20">
+                         <%= f.text_field :mobile_no, autofocus: true, class: "form-control form-control-lg", placeholder: "Mobile Number", required: "" %>
+                    </div>
+                    <div class="login-buttons">
+                         <%= f.submit "Send me a Token", class: "btn btn-success btn-block btn-lg" %>
+                    </div>
+               <% end %>
+          </div>
+     </div>
+</div>

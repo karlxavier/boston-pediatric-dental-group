@@ -1,6 +1,0 @@
-<div class="dropzonable" data-behavior='chatbox' data-chatroom-id='<%= active_room.id %>' id="chatroom_msgs">
-	<% messages.each do |message| %>
-	 	<%= render '/messages/message', message: message, current_user_id: current_user.id %>
-	<% end %>
-	<input type="hidden" id="current_user_id" value="<%= current_user.id %>">
-</div>

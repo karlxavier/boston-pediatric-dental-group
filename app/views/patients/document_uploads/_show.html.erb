@@ -1,0 +1,59 @@
+<% if !documents.subs.present? %>
+    <div class="alert alert-warning">
+        There are no files for this folder yet.
+    </div>
+<% else %>
+    <table class="table table-hover">
+        <tbody>
+            <% documents.subs.each do |document| %>
+
+                <% 
+                    if document.attachment_data.present?
+                        attachment_data = JSON.parse(document.attachment_data, object_class: OpenStruct) 
+                        mime_type = attachment_data.original.metadata.mime_type
+                    else
+                        attachment_data = ''
+                        mime_type = ''
+                    end
+                %>
+
+                <tr>
+                    <td class="contact-type" style="padding-right: 0;">
+                        <%= link_to mime_type === '' ? patients_patient_document_upload_path(current_patient, document) : patients_patient_document_upload_doc_preview_path(current_patient, document), class: "root", remote: true  do %>
+                            <% if mime_type === 'application/pdf' %>
+                                <i class="fa fa-file-pdf-o fa-4x text-danger" aria-hidden="true"></i>
+                            <% elsif mime_type.include? "image" %>
+                                <i class="fa fa-file-image-o fa-4x text-warning" aria-hidden="true"></i>
+                            <% elsif mime_type.include? "sheet" %>
+                                <i class="fa fa-file-excel-o fa-4x text-success" aria-hidden="true"></i>
+                            <% elsif mime_type.include? "officedocument" %>
+                                <i class="fa fa-file-word-o fa-4x text-info" aria-hidden="true"></i>
+                            <% elsif mime_type === '' %>
+                                <i class="fa fa-folder fa-4x text-muted" aria-hidden="true"></i>
+                            <% end %>
+                        <% end %>
+                    </td>
+                    <td class="project-title">
+                        <%= link_to mime_type === '' ? patients_patient_document_upload_path(current_patient, document) : patients_patient_document_upload_doc_preview_path(current_patient, document), class: "root", remote: true  do %>
+                            <%= attachment_data.present? ? attachment_data.original.metadata.filename : document.description %>
+                            <br>
+                            <small>Created <strong><%= document.created_at.strftime("%d-%b-%C %I:%M %P") %></strong></small>
+                        <% end %>
+                    </td>
+                    <td class="project-completion">
+                            <small>Shared On</small>
+                            <div>
+                                <%= document.created_at.strftime("%d-%b-%C %I:%M %P") %>
+                            </div>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+<% end %>
+<script>
+    $('.root').click(function() {
+        $('#documents').addClass('sk-loading');
+    });
+</script>

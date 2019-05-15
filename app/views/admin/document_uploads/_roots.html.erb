@@ -45,7 +45,7 @@
                         <small>Shared To</small>
                         <div>
                         <% root.document_shares.each do |share| %>
-                            <span class="badge"><%= share.user.full_name %></span>
+                            <span class="badge"><%= share.user.present? ? share.user.full_name : share.patient.present? ? share.patient.full_name : '' %></span>
                         <% end %>
                         </div>
                 </td>

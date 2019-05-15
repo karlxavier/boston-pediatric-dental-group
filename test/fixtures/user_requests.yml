@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  is_approve: false
+  remarks: MyString
+  request_type: 1
+  user_time_log_id: 1
+  date: 2019-05-15 21:54:50
+  executed: false
+  time_in: 2019-05-15 21:54:50
+  time_out: 2019-05-15 21:54:50
+  description: MyString
+
+two:
+  user_id: 1
+  is_approve: false
+  remarks: MyString
+  request_type: 1
+  user_time_log_id: 1
+  date: 2019-05-15 21:54:50
+  executed: false
+  time_in: 2019-05-15 21:54:50
+  time_out: 2019-05-15 21:54:50
+  description: MyString

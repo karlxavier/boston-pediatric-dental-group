@@ -1,0 +1,43 @@
+<div class="page-container fade page-sidebar-fixed page-header-fixed show" id="page-container">
+    <div id="header" class="header navbar-default p-navbar">
+        <!-- begin navbar-header -->
+        <div class="navbar-header p-navbar-header ">
+            <%= link_to current_patient.present? ? patients_root_path : '#', class: "navbar-brand" do %>
+                <%= image_tag 'logo.png' %>
+                <b>Boston Pediatric</b> Dental Group
+            <% end %>
+            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- end header navigation right -->
+        <ul class="navbar-nav navbar-right">
+            <% if current_patient.present? %>
+                <li>
+                    <%= link_to 'Logout', destroy_patient_session_path, method: :delete, style: "font-size: 14px; font-weight: 500; line-height: 1.25; padding-top: 30px; padding-right: 50px;" %>
+                </li>
+            <% end %>
+        </ul>
+    </div>
+
+    <% if current_patient.present? && current_patient.confirmed? %>
+        <%= render "layouts/static/sidebar_patient" %>
+    <% end %>
+    <div id="content" class="content" style="padding: 0;">
+        <div style="margin-top: 30px;">
+            <%= yield %>
+        </div>
+    </div>
+    <input type="hidden" id="browser_id" value="<%= current_patient.id if current_patient.present? %>">
+</div>
+<script>
+    $('.dropdown').on('show.bs.dropdown', function (event) {
+        $.ajax({
+            type: 'GET',
+            dataType: 'script',
+            url: '/load_notifications'
+        });
+    })
+</script>

@@ -1,0 +1,97 @@
+ <div class="ibox">
+     <div class="ibox-title">
+          <ol id="breadcrumb" class="breadcrumb">
+               <li>
+                    <b class="text-inverse" style="font-size: 14px;">
+                         <%= patient.full_name %> Shared Files
+                    </b>
+               </li>
+          </ol>
+     </div>
+     <div id="documents" class="ibox-content">
+          <div id="document-list" class="project-list">
+               <table class="table table-hover dataTables-List dataTable">
+                    <thead>
+                         <tr role="row">
+                         <th></th>
+                         <th></th>
+                         <th></th>
+                         <th></th>
+                    </thead>
+                    <tbody>
+                         <% patient.patient_shared_files.each do |document| %>
+
+                              <% 
+                                   if document.attachment_data.present?
+                                        attachment_data = JSON.parse(document.attachment_data, object_class: OpenStruct) 
+                                        mime_type = attachment_data.original.metadata.mime_type
+                                   else
+                                        attachment_data = ''
+                                        mime_type = ''
+                                   end
+                              %>
+
+                              <tr>
+                                   <td class="contact-type" style="padding-right: 0;">
+                                   
+                                        <% if mime_type === 'application/pdf' %>
+                                             <i class="fa fa-file-pdf-o fa-4x text-danger" aria-hidden="true"></i>
+                                        <% elsif mime_type === 'application/zip' %>
+                                             <i class="fa fa-file-zip-o fa-4x text-danger" aria-hidden="true"></i>
+                                        <% elsif mime_type.include? "image" %>
+                                             <i class="fa fa-file-image-o fa-4x text-warning" aria-hidden="true"></i>
+                                        <% elsif mime_type.include? "sheet" %>
+                                             <i class="fa fa-file-excel-o fa-4x text-success" aria-hidden="true"></i>
+                                        <% elsif mime_type.include? "officedocument" %>
+                                             <i class="fa fa-file-word-o fa-4x text-info" aria-hidden="true"></i>
+                                        <% elsif mime_type === 'text/plain' %>
+                                             <i class="fa fa-file-excel-o fa-4x text-success" aria-hidden="true"></i>
+                                        <% elsif mime_type === '' %>
+                                             <i class="fa fa-folder fa-4x text-muted" aria-hidden="true"></i>
+                                        <% else %>
+                                             <i class="fa fa-file-code-o fa-4x text-muted" aria-hidden="true"></i>
+                                        <% end %>
+                                   
+                                   </td>
+                                   <td class="project-title">
+                                        <b class="text-inverse" style="font-size: 14px;">
+                                             <%= attachment_data.original.metadata.filename %>
+                                        </b>
+                                        <br>
+                                        <small>Created <strong><%= document.created_at.strftime("%d-%b-%C %I:%M %P") %></strong></small>
+                                   
+                                   </td>
+                                   <td class="project-completion">
+                                        <small>Shared On</small>
+                                        <div>
+                                             <%= document.created_at.strftime("%d-%b-%C %I:%M %P") %>
+                                        </div>
+                                   </td>
+                                   <td class="project-actions">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                             <i class="fa fa-ellipsis-h"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-user" x-placement="bottom-start" style="position: absolute; top: 18px; left: -68px; will-change: top, left;">                                   
+                                             <li>
+                                                  <%= link_to 'Download file', document.attachment_url(:original), download: attachment_data.original.metadata.filename, target: :_blank, class: "dropdown-item" %>
+                                             </li>
+                                        </ul>
+                                   </td>
+                              </tr>
+                         <% end %>
+                    </tbody>
+               </table>
+          </div>
+     </div>
+</div>
+<script type="text/javascript">
+     if (! $('.dataTables-List').hasClass('initialized')) {
+          $('.dataTables-List').not('.initialized').addClass('initialized').DataTable({
+               pageLength: 6,
+               searching: true,
+               responsive: true,
+               ordering: false,
+               lengthChange: false
+          });
+     };
+</script>

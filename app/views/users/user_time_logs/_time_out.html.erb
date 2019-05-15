@@ -1,0 +1,53 @@
+<div id="time_out">
+     <%= form_for [:users, time_log], remote: true do |f| %>
+        <div style="text-align: center;">
+            <%= button_tag type: 'submit', id: "register-button", style: "background: none; border: none;" do %>
+                <i class="fas fa-stop-circle fa-10x play-stop" style="color: #F17D55;"></i>
+            <% end %>
+        </div>
+    <% end %>
+ 
+    <div class="widget yellw-bg no-padding" style="text-align: center;">
+        <div class="p-m">
+            <h1 id="currentTime" class="m-xs" style="color: #ed5565;">--:--:--</h1>
+            <small id="duration">Duration</small>
+        </div>
+    </div>
+
+    <ul class="list-group clear-list">
+        <li class="list-group-item fist-item">
+            <span class="float-right"> <strong><%= time_log.description.present? ? time_log.description.truncate(27) : '' %> </strong></span>
+            Description
+        </li>
+        <li class="list-group-item">
+            <span class="float-right"><strong> <%= time_log.time_in.strftime("%I:%M:%S %p") %> </strong></span>
+            Time In
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    
+    function setTimeLog() {
+        const timer = new Timer();
+        var startTime = <%= (Time.zone.now - time_log.time_in).to_i %>;
+
+        var el = document.getElementById('currentTime'),
+        elClone = el.cloneNode(true);
+
+        el.parentNode.replaceChild(elClone, el);
+            
+        document.getElementById("duration").value = "Duration";
+        timer.start({precision: 'seconds', startValues: {seconds: startTime}});
+        timer.addEventListener('secondsUpdated', function () {
+            $(elClone).html(timer.getTimeValues().toString());
+        });  
+    }
+
+    if( document.readyState === 'complete' ) {
+        setTimeLog();
+    } else {
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeLog();
+        });
+    }
+</script>

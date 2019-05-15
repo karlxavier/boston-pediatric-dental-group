@@ -1,0 +1,13 @@
+<li>
+    <%= link_to 'Home', patients_patient_document_uploads_path %>
+</li>
+<% parents.each do |parent| %>
+    <li>
+        <%= link_to parent.description, patients_patient_document_upload_path(current_patient, parent), remote: true  %>
+    </li>
+<% end %>
+<li>
+    <strong>
+        <%= selected.description %>
+    </strong>
+</li>

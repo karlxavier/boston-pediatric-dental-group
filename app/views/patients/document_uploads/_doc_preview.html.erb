@@ -1,0 +1,62 @@
+<div id="modal-shows">
+    <div class="modal fade" id="modal-dialog" style="display: none;">
+        <div class="modal-dialog modal-dialog modal-lg">
+            <% 
+               if @document.attachment_data.present?
+                    attachment_data = JSON.parse(@document.attachment_data, object_class: OpenStruct) 
+                    mime_type = attachment_data.original.metadata.mime_type
+                else
+                    attachment_data = ''
+                    mime_type = ''
+               end
+            %>
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <h3>
+                        <%= attachment_data.original.metadata.filename %>
+                    </h3>
+                    <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <% if mime_type === 'application/pdf' %>
+                        <div id="pdf">    
+                            <iframe src="<%= @document.attachment_url(:original) %>" style="width: 100%; height: 100%;" frameborder="0"></iframe>
+                        </div>
+                    <% elsif is_downloadable_file?(mime_type) %>
+                        <div id="download">  
+                            <div class="text-center p-lg h-400">
+
+                                <% if mime_type === 'application/pdf' %>
+                                    <i class="fa fa-file-pdf-o fa-10x text-danger" aria-hidden="true"></i>
+                                <% elsif mime_type === 'application/zip' %>
+                                    <i class="fa fa-file-zip-o fa-10x text-danger" aria-hidden="true"></i>
+                                <% elsif mime_type.include? "image" %>
+                                    <i class="fa fa-file-image-o fa-10x text-warning" aria-hidden="true"></i>
+                                <% elsif mime_type.include? "sheet" %>
+                                    <i class="fa fa-file-excel-o fa-10x text-success" aria-hidden="true"></i>
+                                <% elsif mime_type.include? "officedocument" %>
+                                    <i class="fa fa-file-word-o fa-10x text-info" aria-hidden="true"></i>
+                                <% elsif mime_type === 'text/plain' %>
+                                    <i class="fa fa-file-excel-o fa-10x text-success" aria-hidden="true"></i>
+                                <% elsif mime_type === '' %>
+                                    <i class="fa fa-folder fa-10x text-muted" aria-hidden="true"></i>
+                                <% else %>
+                                    <i class="fa fa-file-code-o fa-10x text-muted" aria-hidden="true"></i>
+                                <% end %>
+
+                                <br>
+                                <p style="color: #fff; font-size: 12px;"><%= attachment_data.original.metadata.filename %></p>
+                                <h3>File cannot be preview, you can download it directly.</h3>
+                                <%= link_to 'Download file', @document.attachment_url(:original), download: attachment_data.original.metadata.filename, target: :_blank, class: "btn btn-w-m btn-warning" %>
+                            </div>  
+                        </div>
+                    <% else %>
+                        <div id="others" class="image-crop"> 
+                            <%= image_tag @document.attachment_url(:original), class: "image-preview" %>	
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

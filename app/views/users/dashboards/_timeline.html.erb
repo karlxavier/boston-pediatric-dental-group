@@ -1,0 +1,56 @@
+<div class="m-b-10 f-s-10 m-t-10" style="margin-left: 80px;">
+	<h2 class="text-inverse"><%= user_timelogs.first.user.first_name %>'s Timelogs</h2>
+</div>
+<div class="row m-b-30">
+	
+	<div id="vertical-timeline" class="vertical-container dark-timeline">
+		<% user_timelogs.each do |user_timelog| %>
+			<div class="vertical-timeline-block">
+				<div class="vertical-timeline-icon blue-bg">
+					<i class="fa fa-stopwatch"></i>
+				</div>
+
+				<div class="vertical-timeline-content">
+					<% if user_timelog.user.id == current_user.id %>
+						<a href="#" data-toggle="dropdown" class="text-muted pull-right" aria-expanded="true"><i class="fa fa-ellipsis-h f-s-14"></i></a>
+						<ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(234px, 72px, 0px);">
+							<li>
+								<%= link_to 'Request Update', users_request_timelog_update_path(user_timelog.id), remote: true %>
+							</li>
+						</ul>
+					<% end %>
+					<h2><%= user_timelog.description %></h2>
+					<div class="row">
+						<div class="col-md-4" align="center">
+							<span>
+								Time In <br>
+								<strong class="text-warning"><%= user_timelog.time_in.strftime("%I:%M %P") %></strong>
+							</span>
+						</div>
+
+						<div class="col-md-4" align="center">
+							<span>
+								Duration <br>
+								<strong class="text-success">
+									<% if user_timelog.time_out.present? %>
+										<%= replace_unwanted_words remove_unwanted_words distance_of_time_in_words(user_timelog.time_out, user_timelog.time_in, include_seconds: true) %>
+									<% else %>
+										....
+                                    <% end %>
+								</strong>
+							</span>
+						</div>
+
+						<div class="col-md-4" align="center">
+							<span>
+								Time Out <br>
+								<strong class="text-warning"><%= user_timelog.time_out.present? ? user_timelog.time_out.strftime("%I:%M %P") : "...." %></strong>
+							</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>

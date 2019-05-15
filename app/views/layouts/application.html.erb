@@ -19,19 +19,40 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js" data-turbolinks-track="reload"></script>
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-  <%# <% if params[:controller] == 'inventories' && params[:action] == 'index' %>
-      <%# <%= javascript_include_tag 'Chart.min', 'data-turbolinks-track': 'reload' %>
-      <%# <%= javascript_include_tag 'charts-home', 'data-turbolinks-track': 'reload' %>
-  <%# <% end %>
+  <% if params[:controller] == 'inventories' && params[:action] == 'index' %>
+      <%= javascript_include_tag 'Chart.min', 'data-turbolinks-track': 'reload' %>
+      <%= javascript_include_tag 'charts-home', 'data-turbolinks-track': 'reload' %>
+  <% end %>
 </head>
 
 <body>
-  <% if !user_signed_in? %>
-    <%= render '/devise/sessions/new' %>
-  <% elsif ["Admin"].exclude? controller.class.name.split("::").first %>
-    <%= render "layouts/user" %>
+
+  <% if ["Users"].include? controller.class.name.split("::").first %>
+    <% if user_signed_in? %>
+      <%= render "layouts/user" %>
+    <% else %>
+      <%= render '/users/sessions/new' %>
+    <% end %>
+  <% elsif ["Admin"].include? controller.class.name.split("::").first %>
+    <% if user_signed_in? %>
+      <%= render "layouts/admin" %>
+    <% else %>
+      <%= render '/users/sessions/new' %>
+    <% end %>
+  <% elsif ["Patients"].include? controller.class.name.split("::").first %>
+    <% if patient_signed_in? %>
+      <div style="background-color: #fff; height: 100vh;">
+        <%= render "layouts/patient" %>
+      </div>
+    <% elsif action_name == 'edit' && controller.class.name.split("::").last == 'PasswordsController' %>
+      <div style="background-color: #fff; height: 100vh;">
+        <%= render "layouts/patient" %>
+      </div>
+    <% else %>
+      <%= render '/patients/sessions/new' %>
+    <% end %>
   <% else %>
-    <%= render "layouts/admin" %>
+    <%= yield %>
   <% end %>
 
 <%= render "search_results/full_screen_search" %>
@@ -67,10 +88,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
-<%# <%= javascript_include_tag 'Timer', 'data-turbolinks-track': 'reload' %>
-  <%# <% if params[:controller] == 'orders' && (params[:action] == 'new' || params[:action] == 'edit') %> %>
-  <%# <%= javascript_include_tag 'order', 'data-turbolinks-track': 'reload' %> %>
-<%# <% end %> %>
+<%= javascript_include_tag 'Timer', 'data-turbolinks-track': 'reload' %>
+  <% if params[:controller] == 'orders' && (params[:action] == 'new' || params[:action] == 'edit') %>
+  <%= javascript_include_tag 'order', 'data-turbolinks-track': 'reload' %>
+<% end %>
 <div id="modal-shows"></div><!-- For modal shows, partial rendering -->
 <script>
 		$(document).ready(function() {

@@ -39,8 +39,7 @@ class Patients::PatientsController < ApplicationController
                          else
                               puts '*********** authy errors'
                               puts authy.errors
-                              puts @patient.email
-                              puts country_code
+           
                               flash.now[:mobile_errors] = "Authy API error. Please contact Administrator."
                               format.js { render action: "invalid_mobile" }
                          end

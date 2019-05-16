@@ -24,7 +24,7 @@ class Admin::DocumentUploadsController < Admin::BaseController
                 @document_upload.save
             end
             format.html { redirect_to admin_document_uploads_path }
-        end
+        end 
     end
 
     def edit

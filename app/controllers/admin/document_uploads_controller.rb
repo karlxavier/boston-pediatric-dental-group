@@ -13,9 +13,14 @@ class Admin::DocumentUploadsController < Admin::BaseController
     def create
 
         respond_to do |format|
-            params[:document_upload][:attachment].each do |file|
+            if params[:document_upload].has_key?(:attachment)
+                params[:document_upload][:attachment].each do |file|
+                    @document_upload = DocumentUpload.new(doc_params)
+                    @document_upload.attachment = file
+                    @document_upload.save
+                end
+            else
                 @document_upload = DocumentUpload.new(doc_params)
-                @document_upload.attachment = file
                 @document_upload.save
             end
             format.html { redirect_to admin_document_uploads_path }

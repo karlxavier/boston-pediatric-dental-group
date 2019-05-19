@@ -2,7 +2,8 @@ Rails.application.routes.draw do
      mount ActionCable.server => "/cable"
      mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
    
-     root 'users/user_time_logs#index'
+     # root 'users/user_time_logs#index'
+     root 'patients/dashboards#index'
    
      # get 'patients/sign_out' => "patients/sessions#destroy"
      devise_for :patients,

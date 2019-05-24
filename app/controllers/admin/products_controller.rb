@@ -33,8 +33,10 @@ class Admin::ProductsController < Admin::BaseController
 
     respond_to do |format|
        if @product.save
+            flash.now[:notice] = "File successfully created."
             format.html { redirect_to admin_products_path }
         else
+            flash.now[:error] = "Error on creating new file."
             format.html { render 'new' }
         end
     end

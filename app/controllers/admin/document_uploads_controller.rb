@@ -18,6 +18,7 @@ class Admin::DocumentUploadsController < Admin::BaseController
                     @document_upload = DocumentUpload.new(doc_params)
                     @document_upload.attachment = file
                     @document_upload.save
+                    flash.now[:notice] = "File successfully created."
                 end
             else
                 @document_upload = DocumentUpload.new(doc_params)
@@ -40,6 +41,7 @@ class Admin::DocumentUploadsController < Admin::BaseController
     def update
         respond_to do |format|
             if @document_upload.update_attributes(doc_params)
+                flash.now[:notice] = "File successfully updated."
                 format.html { redirect_to admin_document_uploads_path }
             else
                 format.html { render 'edit' }

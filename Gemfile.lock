@@ -111,6 +111,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    content_disposition (1.0.0)
     countries (2.1.4)
       i18n_data (~> 0.8.0)
       money (~> 6.9)
@@ -138,7 +139,8 @@ GEM
     dotenv-rails (2.2.1)
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
-    down (4.5.0)
+    down (5.2.0)
+      addressable (~> 2.5)
     dry-auto_inject (0.6.1)
       dry-container (>= 0.3.4)
     dry-configurable (0.8.2)
@@ -309,8 +311,9 @@ GEM
     selenium-webdriver (3.9.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
-    shrine (2.11.0)
-      down (~> 4.1)
+    shrine (3.3.0)
+      content_disposition (~> 1.0)
+      down (~> 5.1)
     sixarm_ruby_unaccent (1.2.0)
     sort_alphabetical (1.1.0)
       unicode_utils (>= 1.2.2)
@@ -420,7 +423,7 @@ DEPENDENCIES
   sdoc
   seed_dump
   selenium-webdriver
-  shrine (~> 2.6)
+  shrine (~> 3.3)
   spring
   spring-watcher-listen (~> 2.0.0)
   summernote-rails (~> 0.8.10.0)
